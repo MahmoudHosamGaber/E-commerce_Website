@@ -15,6 +15,10 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", async (req, res) => {
   res.status(200).json({ message: "Hello World" });
 });
+
+app.get('/login', (req, res)=>{
+  res.status(200).json({ message: "Login" });
+})
 app.use("/api/users", require("./routes/userRoutes"));
 
 app.use(errorHandler);
