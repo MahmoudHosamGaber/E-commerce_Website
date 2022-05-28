@@ -2,6 +2,16 @@ const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const User = require("../model/userModel");
 
+const login = asyncHandler(async (req, res) => {
+  // res.status(200).json({ message: "Login" });
+  res.render('login');
+});
+
+const register = asyncHandler(async (req, res) => {
+  // res.status(200).json({ message: "Register" });
+  res.status(200).render( "Register"  );
+});
+
 const updateUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id);
@@ -53,4 +63,4 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { updateUser };
+module.exports = { updateUser, login, register };
