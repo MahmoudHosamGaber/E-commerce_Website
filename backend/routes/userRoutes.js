@@ -5,8 +5,8 @@ const {
   login,
   register,
   loginUser,
-  insertRandomUsers,
-  getAllUsers,
+  // insertRandomUsers,
+  // getAllUsers,
   deleteUser,
 } = require("../controllers/userController");
 
@@ -14,8 +14,8 @@ router.get("/login", login);
 router.get("/register", register);
 
 router.post("/login", loginUser);
-router.post("/randome", insertRandomUsers);
-router.get("/", getAllUsers);
+// router.post("/randome", insertRandomUsers);
+// router.get("/", getAllUsers);
 router.delete("/:id", deleteUser);
 
 router.put("/:id", updateUser);

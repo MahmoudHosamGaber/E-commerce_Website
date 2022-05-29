@@ -104,7 +104,40 @@ const generateToken = (id) => {
     expiresIn: "30d",
   });
 };
-const getAllUsers = (req, res) => {
+
+const deleteUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  User.findByIdAndDelete(id, function (err) {
+    if (err) {
+      res.json({ msg: err });
+    } else {
+      res.json({ msg: "Successful deletion" });
+    }
+  });
+});
+
+function randomStr(len, arr) {
+  var ans = "";
+  for (var i = len; i > 0; i--) {
+    ans += arr[Math.floor(Math.random() * arr.length)];
+  }
+  return ans;
+}
+
+module.exports = {
+  updateUser,
+  login,
+  register,
+  loginUser,
+  // insertRandomUsers,
+  // getAllUsers,
+  deleteUser,
+  logouUser
+};
+/**
+ * Delete these functions
+ * 
+ const getAllUsers = (req, res) => {
   User.find({}, function (err, users) {
     var userMap = {};
 
@@ -132,32 +165,4 @@ const insertRandomUsers = async (req, res) => {
   }
   res.json({ msg: "done" });
 };
-const deleteUser = asyncHandler(async (req, res) => {
-  const id = req.params.id;
-  User.findByIdAndDelete(id, function (err) {
-    if (err) {
-      res.json({ msg: err });
-    } else {
-      res.json({ msg: "Successful deletion" });
-    }
-  });
-});
-
-function randomStr(len, arr) {
-  var ans = "";
-  for (var i = len; i > 0; i--) {
-    ans += arr[Math.floor(Math.random() * arr.length)];
-  }
-  return ans;
-}
-
-module.exports = {
-  updateUser,
-  login,
-  register,
-  loginUser,
-  insertRandomUsers,
-  getAllUsers,
-  deleteUser,
-  logouUser
-};
+ */

@@ -13,14 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-/** Routes */
-// app.get("/", async (req, res) => {
-//   res.status(200).json({ message: "Hello World" });
-// });
 
-// app.get('/login', (req, res)=>{
-//   res.status(200).json({ message: "Login" });
-// })
 app.use("/", require("./routes/index"));
 app.use("/api/users", require("./routes/userRoutes"));
 
