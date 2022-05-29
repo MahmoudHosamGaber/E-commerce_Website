@@ -41,6 +41,11 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid credentials");
   }
 });
+// user logout
+const logouUser = asyncHandler(async (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect('/')
+});
 
 const updateUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
@@ -154,4 +159,5 @@ module.exports = {
   insertRandomUsers,
   getAllUsers,
   deleteUser,
+  logouUser
 };
