@@ -5,8 +5,7 @@ const { errorHandler } = require("./middleware/errorMiddleware");
 const port = process.env.PORT || 3000;
 const connectDB = require("./config/db");
 
-const exphbs = require('express-handlebars');
-const path=require('path')
+const path = require("path");
 
 connectDB();
 
@@ -22,15 +21,8 @@ app.use(express.urlencoded({ extended: false }));
 // app.get('/login', (req, res)=>{
 //   res.status(200).json({ message: "Login" });
 // })
-app.use('/', require('./routes/index'))
+app.use("/", require("./routes/index"));
 app.use("/api/users", require("./routes/userRoutes"));
-
-//Handlebars
-app.engine('.hbs', exphbs.engine({defaultLayout:'main', extname: '.hbs'}));
-app.set('view engine', '.hbs');
-
-//Static folder
-app.use(express.static(path.join(__dirname, 'public')))
 
 
 app.use(errorHandler);
