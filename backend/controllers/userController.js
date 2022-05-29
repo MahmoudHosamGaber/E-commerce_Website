@@ -25,6 +25,11 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   // res.json({up:user.password, p: password, res: (await bcrypt.compare(password, user.password))})
   if (user && (await bcrypt.compare(password, user.password))) {
+    const token = generateToken(user._id);
+    res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: maxAge * 1000,
+      });
     res.json({
       _id: user.id,
       name: user.name,
