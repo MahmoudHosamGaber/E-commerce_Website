@@ -23,7 +23,6 @@
   <script>
     document.getElementById('frm').addEventListener('submit', (e)=>{
       e.preventDefault()
-      console.log(e)
       fetch('/api/users/login', {
         method: 'post',
         body: JSON.stringify({
@@ -34,9 +33,17 @@
           'Content-Type': 'application/json'
         }
       }).then(res=>{
-        return res.json()
+        //console.log(res)
+        
+        return (res.status ===200)? res.json(): console.log('Cant login')
       }).then(dt=>{
-        console.log('res data', dt)
+        if(dt){
+          console.log(dt)
+        }
+      }).catch(err=>{
+        console.log(err)
+        return Promise.reject()
+
       })
     })
   </script>
