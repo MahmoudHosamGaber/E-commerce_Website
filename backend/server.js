@@ -29,7 +29,7 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.engine('.hbs', exphbs.engine({defaultLayout:'main', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
-//static
+//Static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
 
