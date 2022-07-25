@@ -57,7 +57,7 @@ const Aside = () => {
             <ul className='aside_links list-unstyled'>
                 <Accordion className="Accordion" onChange={handleChange('panel1')}>
                     <AccordionSummary >
-                    <NavLink className="mb-5" to="/profile"> <Typography >  <AiOutlineUser /><li className="down">My Account</li> <BiChevronDown/></Typography> </NavLink>  
+                    <NavLink className="mb-5" to="/profile"> <Typography >  <li className="down"><AiOutlineUser />My Account<BiChevronDown/></li> </Typography> </NavLink>  
                         </AccordionSummary>
                          <AccordionDetails>
                             <Typography>

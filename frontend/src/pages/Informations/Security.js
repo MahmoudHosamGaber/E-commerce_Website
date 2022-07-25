@@ -1,26 +1,58 @@
 import { Aside } from '../../components';
 import './UserInfo.css';
 import {Form, Button } from 'react-bootstrap';
-import React ,{ useState, useEffect } from 'react';
-//import { useDispatch, useSelector } from 'react-redux'
+import React ,{useState ,useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import {toast} from 'react-toastify'
+import {updatePassword, reset} from '../../features/auth/authSlice'
 
 const Security = () => {
-    
-    const token = localStorage.getItem("token");
-  
-    const [user, setUser] = useState([])
 
-    useEffect(() => {
-        fetch(`http://localhost:3001/api/users/`, {
-            headers: {'Authorization': `Bearer ${token}`
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        newPassword:'',
+        confirmPassword: '',
+      })
+    
+      const {  email, password, newPassword, confirmPassword} = formData
+    
+      const dispatch = useDispatch()
+    
+      const { user, isError, message } = useSelector(
+        (state) => state.auth
+      )
+    
+      useEffect(() => {
+        if (isError) {
+          toast.error(message)
+        }
+        dispatch(reset())
+      }, [user, isError, message, dispatch])
+    
+      const onChange = (e) => {
+        setFormData((prevState) => ({
+          ...prevState,
+          [e.target.name]: e.target.value,
+        }))
+      }
+    
+      const onSubmit = (e) => {
+        e.preventDefault()
+        if (newPassword !== confirmPassword) {
+            toast.error('Passwords do not match')
+          } else {
+            const userData = {
+              email,
+              password,
+              newPassword,
             }
-          })
-        .then(res => res.json())
-        .then(data => setUser(data));
-    }, [])
+      
+            dispatch(updatePassword(userData))
+          }
+        }
+      
 
-
-    
     return (
         <div className='UserInfo_wrapper'>
             <Aside />
@@ -31,33 +63,33 @@ const Security = () => {
                     <div className="UserInfo_wrapper-content_items mb-5">
                     <div className="mb-3">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter your email address" aria-label="Disabled input" defaultValue={user.email}/* onChange={(e) => this.setEmail(e.target.value)}*/  required />
+                            <Form.Control id="email" type="email" placeholder="email" name="email" onChange={onChange} value={email} required />
                     </div>
                     </div>
 
                     <div className="UserInfo_wrapper-content_items mb-5">
                     <div className="mb-3">
                             <Form.Label>Old Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" defaultValue="{password}" /*onChange={(e) => this.setPassword(e.target.value)} controlId="formPlaintextPassword"*/ required />
+                            <Form.Control id="password" type="password" placeholder="password" name="password" value={password} onChange={onChange} required />
                     </div>
                     </div>
 
                     <div className="UserInfo_wrapper-content_items mb-5">
                     <div className="mb-3">
                             <Form.Label>New Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" defaultValue="{password}" /*onChange={(e) => this.setPassword(e.target.value)} controlId="formPlaintextPassword"*/ required />
+                            <Form.Control id="newPassword" type="password" placeholder="newPassword" name="newPassword" value={newPassword} onChange={onChange} required />
                     </div>
                     </div>
 
                     <div className="UserInfo_wrapper-content_items mb-5">
                     <div className="mb-3">
                             <Form.Label>Confirm New Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" defaultValue="{password}" /*onChange={(e) => this.setPassword(e.target.value)} controlId="formPlaintextPassword"*/ required />
+                            <Form.Control id="confirmPassword" type="password" placeholder="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={onChange}  required />
                     </div>
                     </div>
                     <div className="UserInfo_wrapper-content_items mb-5">
                     <div className="action-wrapper text-center">
-                    <Button className="btn"  type="submit">Save changes</Button>
+                    <Button className="btn"  type="submit" onClick={onSubmit}>Save changes</Button>
                     </div>
                     </div>
             
