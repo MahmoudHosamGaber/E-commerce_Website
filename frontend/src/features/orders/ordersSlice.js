@@ -5,10 +5,8 @@ export const fetchOrders = createAsyncThunk(
   "orders/fetchOrders",
   async (_, { getState, rejectWithValue }) => {
     try {
-      //
       const response = await ordersService.getAllOrders(
-        // TODO get token from the state
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYTFjYjBlODc1NjA4ODFhNjE4MzlhNyIsImlhdCI6MTY1ODY4NjA4NCwiZXhwIjoxNjU4OTQ1Mjg0fQ.JPs8NsdiE4ONERTCQ2aHLTcObM4X0k-CocQhMN_4SVg"
+        getState().auth.user.token
       );
       return response.orders;
     } catch (error) {
