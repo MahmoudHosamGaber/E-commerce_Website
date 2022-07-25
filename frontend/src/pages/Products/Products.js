@@ -3,7 +3,7 @@ import { SubHeading } from '../../components';
 import './product.css';
 import {ProductCard} from '../../components';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts } from '../../features/slice/productsSlice';
+import { fetchAllProducts } from '../../features/products/productsSlice';
 
 const Products = () => {
     let {allProducts} = useSelector(state => state.products);

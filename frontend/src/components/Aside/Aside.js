@@ -11,7 +11,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import {useDispatch} from 'react-redux'
-import {logout, reset} from '../../features/slice/auth/authSlice'
+import {logout, reset} from '../../features/auth/authSlice'
 
 import './aside.css'
 

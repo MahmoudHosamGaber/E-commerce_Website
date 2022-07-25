@@ -50,6 +50,7 @@ const App = () => {
           element={<SearchPage results={searchResults} />}
         />
       </Routes>
+      <ToastContainer />
       <Footer />
     </BrowserRouter>
   );

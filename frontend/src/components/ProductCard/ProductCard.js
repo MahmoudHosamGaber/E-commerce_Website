@@ -3,7 +3,7 @@ import {BsCartPlus, BsCartCheck} from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { addProductDetails } from '../../features/slice/productsSlice';
+import { addProductDetails } from '../../features/products/productsSlice';
 
 const ProductCard = ({product}) => {
 

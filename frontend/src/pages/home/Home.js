@@ -7,7 +7,7 @@ import K3 from "../../assets/images/K3.jpeg"
 import { SubHeading } from '../../components';
 import {ProductCard} from '../../components';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts } from '../../features/slice/productsSlice';
+import { fetchAllProducts } from '../../features/products/productsSlice';
 
 
 const Home = () => {
