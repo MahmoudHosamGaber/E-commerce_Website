@@ -7,30 +7,23 @@ const OrdersList = ({ orders }) => {
     setClicked((clicked) => !clicked);
   };
   const [clicked, setClicked] = useState(false);
-  return orders.map((order) => {
+  return orders.map((order, index) => {
     return (
-      <div className="order_wrapper-content_items_product mb-5" key={order.id}>
+      <div className="order_wrapper-content_items_product mb-5" key={order._id}>
         <button
           className="btn info_button w-100 d-flex align-items-center justify-content-between"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#orderOne"
-          aria-expanded="true"
+          data-bs-target={`#order-${index}`}
+          aria-expanded="false"
           aria-controls="collapseExample"
           onClick={() => handleClick()}
-          key={order.id}
         >
-          <p className="m-0" key={order.id}>
-            Order #1232
-          </p>
-          {clicked ? (
-            <MdKeyboardArrowUp key={order.id} />
-          ) : (
-            <MdKeyboardArrowDown key={order.id} />
-          )}
+          <p className="m-0">Order #{index + 1}</p>
+          {clicked ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
         </button>
-        <div className="collapse" id="orderOne" key={order.id}>
-          <ProductsList products={order.orderDetails} key={order.id} />
+        <div className="collapse" id={`order-${index}`}>
+          <ProductsList products={order.orderDetails} />
         </div>
       </div>
     );
