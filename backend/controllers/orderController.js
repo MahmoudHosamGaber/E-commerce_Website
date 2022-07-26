@@ -23,7 +23,7 @@ const getAllOrders = asyncHandler(async (req, res) => {
       message: "Please login to see your orders",
     });
   } else {
-    const orders = await Order.find({ user: req.user.id });
+    const orders = await Order.find({ userId: req.user.id });
     res.status(200).json({
       user: req.user,
       num: orders.length,
@@ -99,18 +99,20 @@ const archiveOrder = asyncHandler(async (req, res) => {
  * @access Private user
  */
 const createOrder = asyncHandler(async (req, res) => {
-  const cart = await Cart.findOne({ user: req.user.id });
+  const userId = req.user.id
+  const cart = await Cart.findOne({ userId });
   if (!cart) {
     res.status(400);
     throw new Error("Cart is Empty");
   }
   const order = await Order.create({
-    userId: req.user.id,
+    userId: userId,
     orderDetails: cart.items,
   });
   res.json({
     code: res.statusCode,
     message: "New Order created",
+    order
   });
 });
 

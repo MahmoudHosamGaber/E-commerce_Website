@@ -63,7 +63,7 @@ const addItemToCart = asyncHandler(async (req, res) => {
   const cartItem = await CartItem.create({
     productId,
     name: product.name,
-    totalPrice: product.price,
+    totalPrice: product.price * quantity,
     quantity,
     daysTillDelivery: product.daysTillDelivery,
   });
