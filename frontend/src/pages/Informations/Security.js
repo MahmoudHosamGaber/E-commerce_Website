@@ -15,7 +15,7 @@ const Security = () => {
         confirmPassword: '',
       })
     
-      const {  email, password, newPassword, confirmPassword} = formData
+      const { email, password, newPassword, confirmPassword } = formData
     
       const dispatch = useDispatch()
     
@@ -41,13 +41,19 @@ const Security = () => {
         e.preventDefault()
         if (newPassword !== confirmPassword) {
             toast.error('Passwords do not match')
-          } else {
+          } 
+          if(!email){
             const userData = {
-              email,
               password,
-              newPassword,
+              newPassword
             }
-      
+            dispatch(updatePassword(userData))
+          }else {
+             const userData = {
+               email ,
+               password,
+               newPassword,
+             }
             dispatch(updatePassword(userData))
           }
         }
