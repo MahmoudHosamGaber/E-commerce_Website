@@ -37,7 +37,7 @@ const createCategory = asyncHandler(async (req, res) => {
 
 const viewCategory = asyncHandler(async (req, res) => {
   const categories = await Category.find();
-  res.status(200).json({ categories });
+  res.status(200).json( categories );
 });
 
 // @desc    Delete Category

@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import './categories.css';
-import catImg from '../../assets/image.png';
-import hatImg from '../../assets/hat.jpg';
 import { SubHeading } from '../../components';
+import { getCategories } from '../../features/categories/categoriesSlice';
+import {useSelector, useDispatch} from 'react-redux'
+import {toast} from 'react-toastify'
+import {CategoryCard, CategoryCardMen, CategoryCardOthers } from './CategoryCard'
+
 const Categories = () => {
-    const [category, setCategory] = useState([]);
-    console.log(category);
-    useEffect(() => {    
-        fetch("http://localhost:3001/api/categories")
-        .then(res => res.json())
-        .then(data => setCategory(data.categories));
-    }, [])
+  
+    const { categories, isError, message } = useSelector((state) => state.categories)
+    const dispatch = useDispatch();
+   
+    useEffect(() => {
+      
+        if (isError) {
+         toast.error(message)
+        }
+
+      dispatch(getCategories());
+    }, [isError, message,dispatch]);
+    
+   
     return (
         <div className="category__wrapper">
             <div className="container">
@@ -22,13 +32,7 @@ const Categories = () => {
                         </div>
                         <div className="col-md-12 col-lg-10">
                         <div className="row">
-                            {category.map((cat) => {
-                                if(cat.name.slice(0, 6) === "womens") {
-                                    return (<div className='col-4 mb-4 d-flex justify-content-center align-items-center' style={{cursor: "pointer"}} key={cat._id} ><img style={{width: 56, height: 52}} src={catImg} alt="catImg" />{cat.name.slice(7)}</div>)
-                                } else {
-                                    return null;
-                                }
-                            })}
+                           <CategoryCard categories={categories} />         
                         </div>
                         </div>
                     </div>
@@ -41,13 +45,7 @@ const Categories = () => {
                         </div>
                         <div className="col-md-12 col-lg-10">
                         <div className="row">
-                            {category.map((cat) => {
-                                if(cat.name.slice(0, 4) === "mens") {
-                                    return (<div className='col-4 mb-4 d-flex justify-content-center align-items-center' key={cat._id} ><img style={{width: 46, height: 42, marginRight: 10}} src={hatImg} alt="catImg" />{cat.name.slice(5)}</div>)
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            <CategoryCardMen categories={categories} /> 
                         </div>
                         </div>
                     </div>
@@ -60,13 +58,7 @@ const Categories = () => {
                         </div>
                         <div className="col-md-12 col-lg-10">
                         <div className="row">
-                            {category.map((cat) => {
-                                if(cat.name.slice(0, 4) === "mens" || cat.name.slice(0, 6) === "womens") {
-                                    return null
-                                } else {
-                                    return (<div className='col-4 mb-4 d-flex justify-content-center align-items-center' key={cat._id} ><img style={{width: 46, height: 42, marginRight: 10}} src={hatImg} alt="catImg" />{cat.name}</div>);
-                                }
-                            })}
+                           <CategoryCardOthers categories={categories} />
                         </div>
                         </div>
                     </div>

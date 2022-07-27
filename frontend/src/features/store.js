@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import productsSlice from "./products/productsSlice";
 import ordersReducer from "./orders/ordersSlice";
 import authReducer from "./auth/authSlice";
+import categoriesReducer from "./categories/categoriesSlice"
 import storage from "redux-persist/lib/storage";
 import {
   persistStore,
@@ -31,6 +32,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+    categories: categoriesReducer,
     orders: ordersReducer,
   },
 });
