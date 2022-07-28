@@ -54,6 +54,7 @@
 	text-decoration: none;
 	-webkit-transition: all 300ms ease;
 	transition: all 300ms ease;
+	cursor: pointer;
 }
 .test_box .inner .test_click:hover {
 	background-color: rgba(85, 91, 100, 0.5); 

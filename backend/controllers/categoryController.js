@@ -78,7 +78,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get category products
-// @route   GET /api/categories/:id/products
+// @route   GET c
 // @access  Public
 
 const getCategoryProducts = asyncHandler(async (req, res) => {

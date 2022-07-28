@@ -33,6 +33,7 @@ const App = () => {
       <Navbar searchUpdate={searchUpdateHandle} />
       <Routes>
         <Route path="/products" element={<Products />} />
+        <Route path="/products/:categoryId" element={<Products />} />
         <Route path="/productDetails" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/profile" element={<UserInfo />} />
