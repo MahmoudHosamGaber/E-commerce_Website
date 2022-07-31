@@ -50,9 +50,9 @@ const Navbar = ({searchUpdate}) => {
                     </Link>
                     <Link to={user? "/profile" : "/login"}  >
                         { user?
-                              <div class="dropdown">
-                              <div class="dropbtn"><FaUser /> </div>
-                              <div class="dropdown-content">
+                              <div className="dropdown">
+                              <div className="dropbtn"><FaUser /> </div>
+                              <div className="dropdown-content">
                               <NavLink to="/profile">
                                <AiOutlineUser/> My Account</NavLink> 
                               <NavLink to="/profile/security">

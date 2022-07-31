@@ -1,4 +1,3 @@
-import { Aside } from "../../components/index";
 import OrdersList from "./OrdersList";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
