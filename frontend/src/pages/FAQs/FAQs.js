@@ -5,7 +5,6 @@ import './FAQs'
 const FAQs = () => {
     return (
         <div className='FAQs_wrapper'>
-                <Aside />
                 
          </div>
     )

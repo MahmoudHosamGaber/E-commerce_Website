@@ -1,16 +1,28 @@
 import React from 'react';
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import {FaUser} from 'react-icons/fa';
-
-import { Link, NavLink } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import {logout, reset} from '../../features/auth/authSlice'
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import {useSelector} from 'react-redux'
-
+import {BiLogOut}from 'react-icons/bi';
+import {AiOutlineUser} from 'react-icons/ai';
+import {MdOutlineDeliveryDining} from 'react-icons/md';
+import {FaQuestionCircle} from 'react-icons/fa';
+import {BiLock} from 'react-icons/bi';
 import './navbar.css';
 const Navbar = ({searchUpdate}) => {
 
    const {user} = useSelector((state) => state.auth)
-   
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
+ 
+  const onLogout = () => {
+     dispatch(logout())
+     dispatch(reset())
+     navigate('/')
+    };
     return (
         <>
         <nav className="navbar navbar-expand-lg navbar-light sticky-top">
@@ -37,7 +49,28 @@ const Navbar = ({searchUpdate}) => {
                         <AiOutlineShoppingCart />
                     </Link>
                     <Link to={user? "/profile" : "/login"}  >
-                        <FaUser />
+                        { user?
+                              <div class="dropdown">
+                              <div class="dropbtn"><FaUser /> </div>
+                              <div class="dropdown-content">
+                              <NavLink to="/profile">
+                               <AiOutlineUser/> My Account</NavLink> 
+                              <NavLink to="/profile/security">
+                               <BiLock/> Security</NavLink>  
+                                <NavLink to="/profile/paymentmethods">
+                                Payment Methods</NavLink>
+                                <NavLink to="/orders">
+                                <MdOutlineDeliveryDining/> Orders</NavLink> 
+                                <NavLink to="/faqs">
+                               <FaQuestionCircle/> FAQS</NavLink>  
+                                <NavLink onClick={onLogout} to="/">
+                                <BiLogOut />
+                                Logout
+                                </NavLink>
+                              </div>
+                              </div>
+                           : <FaUser /> 
+                        }
                     </Link>
                 </div>
                 </div>

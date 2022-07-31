@@ -64,7 +64,6 @@ const Security = () => {
 
     return (
         <div className='UserInfo_wrapper'>
-            <Aside />
             <div className='UserInfo_wrapper-content d-flex w-100 p-5'>
                 <h1 className='mb-5'>My security</h1>
                 <div className="UserInfo_wrapper-content_items w-75">

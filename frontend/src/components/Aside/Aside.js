@@ -68,19 +68,7 @@ const Aside = () => {
                             </Typography>
                         </AccordionDetails>
                         </Accordion>
-                <NavLink className="mb-5" to="/orders">
-                    <MdOutlineDeliveryDining />
-                    <li>My Orders</li>
-                </NavLink>
-                <NavLink className="mb-5" to="/faqs">
-                    <FaQuestionCircle />
-                    <li>FAQS</li>
-                </NavLink>
-
-                <NavLink onClick={onLogout}  className="mb-5" to="/">
-                    <BiLogOut />
-                    <li>Logout</li>
-                </NavLink>
+                
             </ul>
         </aside>
     )

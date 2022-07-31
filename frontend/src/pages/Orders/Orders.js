@@ -25,7 +25,6 @@ const Orders = () => {
 
   return (
     <div className="orders_wrapper">
-      <Aside />
       <div className="orders_wrapper-content d-flex w-100 p-5">
         <h1 className="mb-5">My Orders</h1>
         <div className="order_wrapper-content_items w-75">
