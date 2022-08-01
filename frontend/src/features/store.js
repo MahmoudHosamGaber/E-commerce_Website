@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import productsSlice from "./products/productsSlice";
 import ordersReducer from "./orders/ordersSlice";
 import authReducer from "./auth/authSlice";
+import cartReducer from "./cart/cartSlice";
 import categoriesReducer from "./categories/categoriesSlice"
 import storage from "redux-persist/lib/storage";
 import {
@@ -33,6 +34,7 @@ export const store = configureStore({
       },
     }),
     categories: categoriesReducer,
+    cart: cartReducer,
     orders: ordersReducer,
   },
 });

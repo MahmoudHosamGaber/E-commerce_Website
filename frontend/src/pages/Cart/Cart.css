@@ -143,3 +143,17 @@ font-size: 100%;
 text-align: center;
 border-radius: 50px;
 }
+
+
+.image img{
+ width: 65px;
+}
+.quantity{
+ width: 50px;
+}
+.total-price{
+ width: 80px;   
+}
+.delete{
+    color: red;
+}

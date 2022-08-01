@@ -1,13 +1,18 @@
-import {Aside} from '../../components/index';
-import {Form, Button } from 'react-bootstrap';
-import React ,{ useState, useEffect } from 'react';
-import { SubHeading } from '../../components';
-
+import { Button } from 'react-bootstrap';
+import React ,{ useEffect } from 'react';
 import './Cart.css'
-
-
+import {useSelector, useDispatch} from "react-redux";
+import {getCart} from "../../features/cart/cartSlice";
 
 const Cart = () => {
+  
+  const {cartItems} = useSelector((state) => state.cart)
+  const dispatch = useDispatch()
+   useEffect(() => {
+    dispatch(getCart())
+   },[dispatch])
+
+
     return (
         <div className='Cart'>  
         <h1 className='Titel mb-5'>My Cart</h1>
@@ -18,8 +23,8 @@ const Cart = () => {
                 <h1 className='Titel4 mb-5'>Total</h1>
                 
                 <div className="Cart__wrapper-Titel mb-4 ">
-            </div>
-            
+                </div>
+                
              
             </div> <h1 className='Titel6 mb-5'>Shipping:</h1>
                 <h1 className='Titel7 mb-5'>Subtotal:</h1>
