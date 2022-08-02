@@ -1,5 +1,5 @@
 const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+    import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -18,14 +18,14 @@ const mailService = new MailService();
  */
 
 const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.aggregate([
-    {
-      $match: { quantityInStock: { $gt: 0 } },
-    },
-  ]);
-  res.status(200).json({
-    products,
-  });
+    const products = await Product.aggregate([
+        {
+            $match: { quantityInStock: { $gt: 0 } },
+        },
+    ]);
+    res.status(200).json({
+        products,
+    });
 });
 
 /**
@@ -34,14 +34,14 @@ const getAllProducts = asyncHandler(async (req, res) => {
  * @access  Public
  */
 const getProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id);
 
-  if (!product) {
-    res.status(400);
-    throw new Error(`Product not found`);
-  }
+    if (!product) {
+        res.status(400);
+        throw new Error(`Product not found`);
+    }
 
-  res.status(200).json(product);
+    res.status(200).json(product);
 });
 
 /**
@@ -50,13 +50,13 @@ const getProduct = asyncHandler(async (req, res) => {
  * @access  Private Admin
  * */
 const deleteProduct = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findByIdAndUpdate(id, { quantityInStock: 0 });
-  if (!product) {
-    res.status(400);
-    throw new Error("The product you are trying to delete doesn't exist");
-  }
-  res.json(product);
+    const { id } = req.params;
+    const product = await Product.findByIdAndUpdate(id, { quantityInStock: 0 });
+    if (!product) {
+        res.status(400);
+        throw new Error("The product you are trying to delete doesn't exist");
+    }
+    res.json(product);
 });
 
 /**
@@ -65,69 +65,68 @@ const deleteProduct = asyncHandler(async (req, res) => {
  * @access  Private Admin
  */
 const createProduct = asyncHandler(async (req, res) => {
-  // const product = req.body;
-  const {
-    name,
-    description,
-    images,
-    mainImage,
-    price,
-    category,
-    brand,
-    quantityInStock,
-    daysTillDelivery,
-  } = req.body;
+    // const product = req.body;
+    const {
+        name,
+        description,
+        images,
+        mainImage,
+        price,
+        category,
+        brand,
+        quantityInStock,
+        daysTillDelivery,
+    } = req.body;
 
-  //check if product exists
-  const product = await Product.findOne({ name });
-  if (product) {
-    console.log(product);
-    res.status(400).json({
-      message: "Product already exists",
-    });
-  } else {
-    const newProduct = new Product({
-      //...req.body
-      name,
-      description,
-      images,
-      mainImage,
-      price,
-      category,
-      brand,
-      quantityInStock,
-      daysTillDelivery,
-    });
-    await newProduct.save();
-    User.find({}, function (err, allUsers) {
-      if (err) {
-        console.log(err);
-      }
-      let mailList = [];
-      allUsers.forEach(function (users) {
-        mailList.push(users.email);
-        return mailList;
-      });
-      const productMailed = {
-        name: newProduct.name,
-        description: newProduct.description,
-        image: newProduct.mainImage,
-        price: newProduct.price,
-      };
+    //check if product exists
+    const product = await Product.findOne({ name });
+    if (product) {
+        res.status(400).json({
+            message: "Product already exists",
+        });
+    } else {
+        const newProduct = new Product({
+            //...req.body
+            name,
+            description,
+            images,
+            mainImage,
+            price,
+            category,
+            brand,
+            quantityInStock,
+            daysTillDelivery,
+        });
+        await newProduct.save();
+        User.find({}, function (err, allUsers) {
+            if (err) {
+                console.log(err);
+            }
+            let mailList = [];
+            allUsers.forEach(function (users) {
+                mailList.push(users.email);
+                return mailList;
+            });
+            const productMailed = {
+                name: newProduct.name,
+                description: newProduct.description,
+                image: newProduct.mainImage,
+                price: newProduct.price,
+            };
 
-      let mailInfo = {
-        to: mailList,
-        subject: " Our latest arrivals",
-        template: "productArrivals",
-        context: productMailed,
-      };
-      mailService.sendMail(mailInfo);
-    });
-    res.status(201).json({
-      message: "Product created and an email has been sent to all users",
-      newProduct,
-    });
-  }
+            let mailInfo = {
+                to: mailList,
+                subject: " Our latest arrivals",
+                template: "productArrivals",
+                context: productMailed,
+            };
+            mailService.sendMail(mailInfo);
+        });
+        res.status(201).json({
+            message: "Product created and an email has been sent to all users",
+            newProduct,
+        });
+    }
 });
 
 /**
@@ -136,44 +135,44 @@ const createProduct = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const updateProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    description,
-    images,
-    mainImage,
-    price,
-    category,
-    brand,
-    quantityInStock,
-    daysTillDelivery,
-  } = req.body;
+    const {
+        name,
+        description,
+        images,
+        mainImage,
+        price,
+        category,
+        brand,
+        quantityInStock,
+        daysTillDelivery,
+    } = req.body;
 
-  const id = req.params.id;
+    const id = req.params.id;
 
-  const product = await Product.findByIdAndUpdate(id, {
-    name,
-    description,
-    images,
-    mainImage,
-    price,
-    category,
-    brand,
-    quantityInStock,
-    daysTillDelivery,
-  });
+    const product = await Product.findByIdAndUpdate(id, {
+        name,
+        description,
+        images,
+        mainImage,
+        price,
+        category,
+        brand,
+        quantityInStock,
+        daysTillDelivery,
+    });
 
-  if (!product) {
-    res.status(400);
-    throw new Error("The product you are trying to update doesn't exist");
-  }
+    if (!product) {
+        res.status(400);
+        throw new Error("The product you are trying to update doesn't exist");
+    }
 
-  res.status(200).json(product);
+    res.status(200).json(product);
 });
 
 module.exports = {
-  getProduct,
-  getAllProducts,
-  updateProduct,
-  createProduct,
-  deleteProduct,
+    getProduct,
+    getAllProducts,
+    updateProduct,
+    createProduct,
+    deleteProduct,
 };
