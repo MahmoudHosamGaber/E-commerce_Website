@@ -1,17 +1,29 @@
 import "./UserInfo.css";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserInfoForm from "./UserInfoForm";
-
+import { toast } from "react-toastify";
+import { reset } from "../../features/auth/authSlice";
 const UserInfo = () => {
+    const { user, isError, isSuccess, message } = useSelector(
+        (state) => state.auth
+    );
     const navigate = useNavigate();
-    const { user } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     useEffect(() => {
         if (!user) {
             navigate("/login");
         }
-    }, [user, navigate]);
+
+        if (isError) {
+            toast.error(message);
+        }
+        if (isSuccess) {
+            toast.success(`Information Updated Successfully`);
+        }
+        dispatch(reset());
+    }, [user, isError, isSuccess, message, dispatch, navigate]);
 
     return (
         <div className="UserInfo_wrapper">
