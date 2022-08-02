@@ -17,7 +17,7 @@ const Security = () => {
             toast.error(message);
         }
         if (isSuccess) {
-            toast(`Password Updated succefully `);
+            toast.success(`Password Updated successfully`);
         }
         dispatch(reset());
     }, [user, isError, isSuccess, message, dispatch]);

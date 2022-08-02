@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateUserInfo } from "../../features/auth/authSlice";
 import { Button } from "react-bootstrap";
+import { useForm } from "../../hooks/useForm";
 
 const SecurityForm = () => {
-    const [formData, setFormData] = useState({
+    const [formData, onChange] = useForm({
         email: "",
         password: "",
         newPassword: "",
@@ -15,32 +15,18 @@ const SecurityForm = () => {
     const dispatch = useDispatch();
     const { email, password, newPassword, confirmPassword } = formData;
 
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-    };
-
     const onSubmit = (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
             toast.error("Passwords do not match");
+            return;
         }
-        if (!email) {
-            const userData = {
-                password,
-                newPassword,
-            };
-            dispatch(updateUserInfo(userData));
-        } else {
-            const userData = {
-                email,
-                password,
-                newPassword,
-            };
-            dispatch(updateUserInfo(userData));
-        }
+        const userData = {
+            email: email || undefined,
+            password,
+            newPassword,
+        };
+        dispatch(updateUserInfo(userData));
     };
     return (
         <form onSubmit={onSubmit}>
@@ -61,7 +47,7 @@ const SecurityForm = () => {
 
             <div className="UserInfo_wrapper-content_items mb-5">
                 <div className="mb-3">
-                    <label>Old Password</label>
+                    <label>Current Password</label>
                     <input
                         className="form-control"
                         id="password"
