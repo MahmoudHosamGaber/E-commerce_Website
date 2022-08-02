@@ -8,27 +8,27 @@ const Product = require("../model/productModel");
 // @access  Private
 
 const createCategory = asyncHandler(async (req, res) => {
-  const { image, name } = req.body;
+    const { image, name } = req.body;
 
-  if (!name || !image) {
-    res.status(400);
-    throw new Error("Please add all fields");
-  }
+    if (!name || !image) {
+        res.status(400);
+        throw new Error("Please add all fields");
+    }
 
-  const category = await Category.create({
-    image,
-    name,
-  });
-
-  if (category) {
-    res.status(201).json({
-      image: category.image,
-      name: category.name,
+    const category = await Category.create({
+        image,
+        name,
     });
-  } else {
-    res.status(400);
-    throw new Error("Invalid category data");
-  }
+
+    if (category) {
+        res.status(201).json({
+            image: category.image,
+            name: category.name,
+        });
+    } else {
+        res.status(400);
+        throw new Error("Invalid category data");
+    }
 });
 
 // @desc    get all Category
@@ -36,8 +36,8 @@ const createCategory = asyncHandler(async (req, res) => {
 // @access  Public
 
 const viewCategory = asyncHandler(async (req, res) => {
-  const categories = await Category.find();
-  res.status(200).json( categories );
+    const categories = await Category.find();
+    res.status(200).json(categories);
 });
 
 // @desc    Delete Category
@@ -45,16 +45,16 @@ const viewCategory = asyncHandler(async (req, res) => {
 // @access  Private
 
 const deleteCategory = asyncHandler(async (req, res) => {
-  const category = await Category.findById(req.params.id);
+    const category = await Category.findById(req.params.id);
 
-  if (!category) {
-    res.status(400);
-    throw new Error("category not found");
-  }
-  await Category.findByIdAndDelete(req.params.id);
-  res.status(201).json({
-    id: category.id,
-  });
+    if (!category) {
+        res.status(400);
+        throw new Error("category not found");
+    }
+    await Category.findByIdAndDelete(req.params.id);
+    res.status(201).json({
+        id: category.id,
+    });
 });
 
 // @desc    update Category
@@ -62,19 +62,19 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // @access  Private
 
 const updateCategory = asyncHandler(async (req, res) => {
-  const category = await Category.findById(req.params.id);
+    const category = await Category.findById(req.params.id);
 
-  if (!category) {
-    res.status(400);
-    throw new Error(`Category not found`);
-  }
+    if (!category) {
+        res.status(400);
+        throw new Error(`Category not found`);
+    }
 
-  const updatedCategory = await Category.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-  res.status(200).json(updatedCategory);
+    const updatedCategory = await Category.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+    );
+    res.status(200).json(updatedCategory);
 });
 
 // @desc    Get category products
@@ -82,18 +82,16 @@ const updateCategory = asyncHandler(async (req, res) => {
 // @access  Public
 
 const getCategoryProducts = asyncHandler(async (req, res) => {
-  const categoryId = req.params.id;
-  console.log(categoryId);
-  const category = await Category.findById(categoryId);
-  console.log(category);
-  if (!category) {
-    res.status(400);
-    throw new Error("Category not found");
-  }
-  const products = await Product.find({
-    category: categoryId,
-  });
-  res.status(200).json({ category: category.name, products });
+    const categoryId = req.params.id;
+    const category = await Category.findById(categoryId);
+    if (!category) {
+        res.status(400);
+        throw new Error("Category not found");
+    }
+    const products = await Product.find({
+        category: categoryId,
+    });
+    res.status(200).json({ category: category.name, products });
 });
 
 /**
@@ -103,22 +101,22 @@ const getCategoryProducts = asyncHandler(async (req, res) => {
  */
 
 const getCatByName = async (name) => {
-  const category = await Category.findOne({ name });
-  if (!category) {
-    return null;
-  } else {
-    return category;
-  }
+    const category = await Category.findOne({ name });
+    if (!category) {
+        return null;
+    } else {
+        return category;
+    }
 };
 
 function exists(id) {
-  return mongoose.Types.ObjectId.isValid(id);
+    return mongoose.Types.ObjectId.isValid(id);
 }
 module.exports = {
-  createCategory,
-  viewCategory,
-  deleteCategory,
-  updateCategory,
-  getCategoryProducts,
-  getCatByName,
+    createCategory,
+    viewCategory,
+    deleteCategory,
+    updateCategory,
+    getCategoryProducts,
+    getCatByName,
 };
