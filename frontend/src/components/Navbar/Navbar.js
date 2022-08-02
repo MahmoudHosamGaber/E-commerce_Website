@@ -5,7 +5,7 @@ import { FiLogIn } from "react-icons/fi";
 import SearchBar from "../SearchBar/SearchBar";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import UserDropdown from "./UserDropdown";
+import NavIcons from "./NavIcons";
 import NavList from "./NavList";
 const Navbar = ({ searchUpdate }) => {
     const { user } = useSelector((state) => state.auth);
@@ -33,24 +33,7 @@ const Navbar = ({ searchUpdate }) => {
                         id="navbarSupportedContent"
                     >
                         <NavList />
-                        <div className="d-flex icons">
-                            <SearchBar searchUpdate={searchUpdate} />
-                            <Link to="/cart">
-                                <AiOutlineShoppingCart />
-                            </Link>
-                            {user ? (
-                                <Link to={"/profile"}>
-                                    <div className="dropdown">
-                                        <FaUser />
-                                        <UserDropdown />
-                                    </div>
-                                </Link>
-                            ) : (
-                                <Link to="/login">
-                                    <FiLogIn />
-                                </Link>
-                            )}
-                        </div>
+                        <NavIcons searchUpdate={searchUpdate} />
                     </div>
                 </div>
             </nav>
