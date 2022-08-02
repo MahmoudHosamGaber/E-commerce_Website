@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaUser } from "react-icons/fa";
+import { FiLogIn } from "react-icons/fi";
 import SearchBar from "../SearchBar/SearchBar";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -56,9 +57,18 @@ const Navbar = ({ searchUpdate }) => {
                             <Link to="/cart">
                                 <AiOutlineShoppingCart />
                             </Link>
-                            <Link to={user ? "/profile" : "/login"}>
-                                {user ? <UserDropdown /> : <FaUser />}
-                            </Link>
+                            {user ? (
+                                <Link to={"/profile"}>
+                                    <div className="dropdown">
+                                        <FaUser />
+                                        <UserDropdown />
+                                    </div>
+                                </Link>
+                            ) : (
+                                <Link to="/login">
+                                    <FiLogIn />
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
