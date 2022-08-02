@@ -6,6 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserDropdown from "./UserDropdown";
+import NavList from "./NavList";
 const Navbar = ({ searchUpdate }) => {
     const { user } = useSelector((state) => state.auth);
 
@@ -31,27 +32,7 @@ const Navbar = ({ searchUpdate }) => {
                         className="collapse navbar-collapse"
                         id="navbarSupportedContent"
                     >
-                        <ul className="navbar-nav m-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <NavLink
-                                    className="nav-link"
-                                    aria-current="page"
-                                    to="/"
-                                >
-                                    Home
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="products">
-                                    Products
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="categories">
-                                    Categories
-                                </NavLink>
-                            </li>
-                        </ul>
+                        <NavList />
                         <div className="d-flex icons">
                             <SearchBar searchUpdate={searchUpdate} />
                             <Link to="/cart">
