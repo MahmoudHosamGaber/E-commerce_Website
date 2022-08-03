@@ -66,6 +66,7 @@ const addItemToCart = asyncHandler(async (req, res) => {
     totalPrice: product.price * quantity,
     quantity,
     daysTillDelivery: product.daysTillDelivery,
+    image: product.mainImage,
   });
 
   // If the cart item already exists in the cart update it
@@ -73,13 +74,7 @@ const addItemToCart = asyncHandler(async (req, res) => {
   cart.items.push(cartItem);
   await cart.save();
 
-  
-  const user = await User.findById(userId);
-
-  res.json({
-    user,
-    items: cart.items
-  });
+  res.json(cart.items);
 });
 
 // @desc    Remove an item from the cart

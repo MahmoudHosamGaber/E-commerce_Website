@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Subheading from "../../components/SubHeading/Subheading";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../features/cart/cartSlice";
 import { AiOutlineMinus, AiOutlinePlus, AiTwotoneStar } from "react-icons/ai";
 import "./productdetails.css";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
     const [quantityCounter, setQuantityCounter] = useState(1);
     const stars = [];
     const product = useSelector((state) => state.products.selectedProduct[0]);
+    const dispatch = useDispatch();
+    const { isError, message} = useSelector((state) => state.cart);
 
+    useEffect(() => {
+        if(isError){
+            toast.error(message);
+        };
+    }, [isError, message])
+
+   const addProduct = (productId, quantity) => {
+    dispatch(addToCart(productId, quantity));
+   };
     const handleQuantityAddition = () => {
         setQuantityCounter(quantityCounter + 1);
     };
@@ -87,7 +100,7 @@ const ProductDetails = () => {
                                         onClick={() => handleQuantityAddition()}
                                     />
                                 </div>
-                                <button className="add__cart">
+                                <button className="add__cart" onClick={ () => addProduct(product._id, product.quantityInStock)}>
                                     Add to cart
                                 </button>
                             </div>
