@@ -1,5 +1,6 @@
 .orders_wrapper {
     display: flex;
+    min-height: 60vh;
 }
 
 .orders_wrapper-content {

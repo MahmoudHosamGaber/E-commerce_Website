@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import NavIcons from "./NavIcons";
 import NavList from "./NavList";
-const Navbar = ({ searchUpdate }) => {
+const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light sticky-top">
             <div className="container-fluid">
@@ -25,7 +25,7 @@ const Navbar = ({ searchUpdate }) => {
                     id="navbarSupportedContent"
                 >
                     <NavList />
-                    <NavIcons searchUpdate={searchUpdate} />
+                    <NavIcons />
                 </div>
             </div>
         </nav>
