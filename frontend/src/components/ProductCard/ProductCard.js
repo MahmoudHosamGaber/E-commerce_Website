@@ -2,16 +2,19 @@ import React, {useState} from 'react';
 import {BsCartPlus, BsCartCheck} from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import { addToCart } from "../../features/cart/cartSlice";
 import { addProductDetails } from '../../features/products/productsSlice';
 
 const ProductCard = ({product}) => {
 
-    const [addToCart, setaddToCart] = useState(false);
+    const [addInToCart, setaddToCart] = useState(false);
     const dispatch = useDispatch();
     const handleAddToCart = (id) => {
         setaddToCart(prev => !prev)
     }
+    const addProduct = (productId, quantity) => {
+        dispatch(addToCart({ productId, quantity }));
+    };
 
     const handleClick = (id) => {
         dispatch(addProductDetails([product]));
@@ -31,10 +34,11 @@ const ProductCard = ({product}) => {
                     <p className="card-text mb-3">{product.description}</p>
                     <div className="item-price d-flex align-items-center justify-content-between ps-2 pe-2">
                         <h5>Price: ${product.price}</h5>
-                        {addToCart 
+                        {addInToCart 
                         ? <BsCartCheck style={{fontSize: 20, color: "green", cursor: "pointer"}} onClick={() => handleAddToCart(product._id)}/>
-                        : <BsCartPlus style={{fontSize: 20, color: "#f44336", cursor: "pointer"}} onClick={() => handleAddToCart(product._id)}/>}
-                    </div>
+                        : <BsCartPlus style={{fontSize: 20, color: "#f44336", cursor: "pointer"}} onClick={() => {handleAddToCart(product._id); addProduct(product._id, 1)}}/>
+                        }
+                        </div>
                 </div>
             </div>
         </div>

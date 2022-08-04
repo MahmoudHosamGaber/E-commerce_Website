@@ -36,6 +36,23 @@ export const addToCart = createAsyncThunk(
     }
 );
 
+//Remove item from cart
+export const removeItem = createAsyncThunk("cart/removeItem", async ({productId}, thunkAPI) => {
+  try{
+    const token = thunkAPI.getState().auth.user.token;
+    return await cartService.removeItem({productId}, token);
+  }catch (error) {
+    const message =
+        (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+        error.message ||
+        error.toString();
+    return thunkAPI.rejectWithValue(message);
+   }
+});
+
+
 const initialState = {
     cartItems: [],
     isSuccess: false,
@@ -87,7 +104,23 @@ const cartSlice = createSlice({
                 state.isError = true;
                 state.isLoading = false;
                 state.isSuccess = false;
-            });
+            })
+            .addCase(removeItem.pending, (state) => {
+              state.isLoading = true
+            })
+            .addCase(removeItem.fulfilled, (state, action) => {
+              state.isLoading = false
+              state.isSuccess = true
+              state.cartItems = state.cartItems.filter(
+                (cartItem) =>  cartItem.productId !== action.payload
+              )
+            })
+            .addCase(removeItem.rejected, (state, action) => {
+              state.isLoading = false
+              state.isError = true
+              state.message = action.payload
+            })
+
     },
 });
 
