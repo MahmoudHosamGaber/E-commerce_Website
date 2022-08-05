@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import Subheading from "../../components/SubHeading/Subheading";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, reset } from "../../features/cart/cartSlice";
-import { AiOutlineMinus, AiOutlinePlus, AiTwotoneStar } from "react-icons/ai";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./productdetails.css";
 import { toast } from "react-toastify";
+import ProductReview from "./ProductReview";
 
 const ProductDetails = () => {
     const [quantityCounter, setQuantityCounter] = useState(1);
-    const stars = [];
     const product = useSelector((state) => state.products.selectedProduct[0]);
     const dispatch = useDispatch();
     const { isSuccess, isError, message } = useSelector((state) => state.cart);
-
     useEffect(() => {
         if (isError) {
             toast.error(message);
@@ -37,10 +36,6 @@ const ProductDetails = () => {
         }
     };
 
-    for (let i = 1; i <= 5; i++) {
-        stars.push(<AiTwotoneStar className="ms-2" />);
-    }
-
     return (
         <div className="details__wrapper pt-4 pb-4">
             <div className="container">
@@ -48,7 +43,7 @@ const ProductDetails = () => {
                 <div className="details__wrappper-content">
                     <div className="row">
                         <div className="details__img col-sm-12 col-md-6">
-                            <img src={product.images[1]} alt="s" />
+                            <img src={product.images[1]} alt="" />
                         </div>
                         <div className="details__info col-sm-12 col-md-6">
                             <div className="details__info-head d-flex justify-content-between align-items-center mb-4">
@@ -117,45 +112,8 @@ const ProductDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className="reviews__container mt-5 mb-5 w-50">
-                    <div className="container">
-                        <div className="total__reviews d-flex align-items-center mb-4">
-                            <h3 className="m-0">Total Reviews: </h3>
-                            <p className="m-0">
-                                {stars.map((star, index) => (
-                                    <span key={index}>{star}</span>
-                                ))}
-                            </p>
-                        </div>
-                        <div className="customers-reviews">
-                            <h5>Customer 1: </h5>
-                            <p className="m-1">
-                                {stars.map((star, index) => (
-                                    <span key={index}>{star}</span>
-                                ))}
-                            </p>
-                            <p className="ms-3">
-                                brilliant product. Exactly as shown. High
-                                quality would buy again.
-                            </p>
-
-                            <h5 className="mt-4">Customer 2: </h5>
-                            <p className="m-1">
-                                {stars.map((star, index) => (
-                                    <span key={index}>{star}</span>
-                                ))}
-                            </p>
-                            <p className="ms-3">Quality is very good.</p>
-                        </div>
-
-                        <div className="write__review mb-4 ">
-                            <button className="write__review-button">
-                                Write a review
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
+            <ProductReview productId={product._id} />
         </div>
     );
 };
