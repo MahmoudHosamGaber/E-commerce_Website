@@ -1,14 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@600&display=swap");
 :root {
-    --main-color: #FFFDF8;
-    --button-color: #E7DCCA;
+    --main-color: #fffdf8;
+    --button-color: #e7dcca;
     --black-color: #333;
-    --section-color: #FDF9F3;
-    --sky-color: #F1F5F3;
-    --cormorant-font: 'Cormorant Upright', serif;
+    --section-color: #fdf9f3;
+    --sky-color: #f1f5f3;
+    --cormorant-font: "Cormorant Upright", serif;
     --font-base: sans-serif;
 }
 
 body {
-    font-family: var(--cormorant-font) ;
+    font-family: var(--cormorant-font);
+}
+
+.loadingSpinnerContainer {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadingSpinner {
+    width: 64px;
+    height: 64px;
+    border: 8px solid;
+    border-color: #000 transparent #555 transparent;
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
