@@ -82,7 +82,6 @@ const cartSlice = createSlice({
             .addCase(getCart.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
-                state.isSuccess = true;
                 state.cartItems = action.payload;
             })
             .addCase(getCart.rejected, (state, action) => {
@@ -112,7 +111,6 @@ const cartSlice = createSlice({
             })
             .addCase(removeItem.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.cartItems = state.cartItems.filter(
                     (cartItem) => cartItem.productId !== action.payload
                 );
