@@ -50,6 +50,14 @@ const addItemToCart = asyncHandler(async (req, res) => {
     cart = await createCart(userId);
   }
 
+  /*
+  const productInCart = await cart.items.filter((item) => item.productId !== productId);
+   if(!productInCart){
+    res.status(400);
+    throw new Error("Product already exist in cart");
+   };
+   */
+
   if (
     !product.quantityInStock ||
     product.quantityInStock < parseInt(quantity)
@@ -90,7 +98,7 @@ const removeItemFromCart = asyncHandler(async (req, res) => {
   }
   cart.items = cart.items.filter((item) => !item.productId.equals(productId));
   await cart.save();
-  res.json(cart.items);
+  res.json(productId);
 });
 
 /**

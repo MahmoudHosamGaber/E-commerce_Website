@@ -14,14 +14,13 @@ const ProductDetails = () => {
     const { isSuccess, isError, message } = useSelector((state) => state.cart);
 
     useEffect(() => {
-        if (isSuccess) {
-            toast.success("Product Added Successfully");
-            dispatch(reset());
-        }
         if (isError) {
             toast.error(message);
-            dispatch(reset());
         }
+        if (isSuccess) {
+            toast.success("Product Added Successfully");
+        }
+        dispatch(reset());
     }, [isSuccess, isError, message, dispatch]);
 
     const addProduct = (productId, quantity) => {
