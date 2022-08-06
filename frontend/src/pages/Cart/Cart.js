@@ -1,51 +1,41 @@
-import { Button } from 'react-bootstrap';
-import React ,{ useEffect } from 'react';
-import './Cart.css'
-import {useSelector, useDispatch} from "react-redux";
-import {getCart} from "../../features/cart/cartSlice";
+import { Button } from "react-bootstrap";
+import React, { useEffect } from "react";
+import "./Cart.css";
+import { useSelector, useDispatch } from "react-redux";
+import { getCart } from "../../features/cart/cartSlice";
 import CartItem from "./CartItem";
 const Cart = () => {
-  
-  const {cartItems} = useSelector((state) => state.cart)
-  const dispatch = useDispatch()
-   useEffect(() => {
-    dispatch(getCart())
-   },[dispatch])
-
+    const { cartItems } = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCart());
+    }, [dispatch]);
 
     return (
-      <div className='Cart'>
-     <div className='container'>
-      
-        <h1 className='title'> My Cart </h1>
-        
-        <div className='cart-header container'>
-                <h1 >Product</h1>
-                <h1 className='quantity-header'>Quantity</h1>
-                <h1 className='total-header ' >Total </h1>
-                
+        <div className="Cart">
+            <div className="container">
+                <h1 className="title"> My Cart </h1>
+
+                <div className="cart-header container">
+                    <h1>Product</h1>
+                    <h1 className="quantity-header">Quantity</h1>
+                    <h1 className="total-header ">Total </h1>
+                </div>
+
+                <div className="Cart__wrapper-Titel mb-4 "></div>
+                {cartItems.map((item) => {
+                    return <CartItem cartItem={item} key={item.productId} />;
+                })}
+
+                <Button className="btn1 mt-5" href="/">
+                    Continue shopping
+                </Button>
+                <a href="/checkout" className="btn">
+                    checkout
+                </a>
             </div>
+        </div>
+    );
+};
 
-            <div className="Cart__wrapper-Titel mb-4 ">
-            </div>
-               { cartItems.map((item) => {
-                return (
-                  <CartItem cartItem={item} key={item.productId}/>
-                )
-                })
-               }
-              
-              <Button className='btn1 mt-5'  href='/'>Continue shopping</Button>
-              <form action="/create-checkout-session" method="POST">
-                  <button type="submit">
-                         Checkout
-                  </button>
-               </form>
-       </div>
-     </div>
-       
-    )
-
- }
-
-export default Cart
+export default Cart;
