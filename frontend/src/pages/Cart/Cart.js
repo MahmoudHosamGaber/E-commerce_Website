@@ -4,12 +4,30 @@ import "./Cart.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getCart } from "../../features/cart/cartSlice";
 import CartItem from "./CartItem";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
+
 const Cart = () => {
     const { cartItems } = useSelector((state) => state.cart);
+    const token = useSelector((state) => state.auth.user.token);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCart());
     }, [dispatch]);
+
+    const checkout = async () => {
+        const response = await axios.post(
+            "/create-payment-intent",
+            { items: cartItems },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        console.log(response.data.url);
+        window.location.href = response.data.url;
+    };
 
     return (
         <div className="Cart">
@@ -30,9 +48,9 @@ const Cart = () => {
                 <Button className="btn1 mt-5" href="/">
                     Continue shopping
                 </Button>
-                <a href="/checkout" className="btn">
+                <Button className="btn" onClick={checkout}>
                     checkout
-                </a>
+                </Button>
             </div>
         </div>
     );
