@@ -71,7 +71,7 @@ const Checkout = () => {
                     <h4>Total price</h4>
                     <h5>
                         {cartItems.reduce((acc, item) => {
-                            return acc + item.totalPrice;
+                            return acc + item.price * item.quantity;
                         }, 0)}
                     </h5>
                 </div>

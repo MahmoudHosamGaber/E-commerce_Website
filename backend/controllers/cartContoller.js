@@ -7,23 +7,23 @@ const User = require("../model/userModel");
 
 // Create cart utility function
 const createCart = asyncHandler(async (id) => {
-  return Cart.create({
-    userId: id,
-    items: new Array(),
-  });
+    return Cart.create({
+        userId: id,
+        items: new Array(),
+    });
 });
 
 // @desc    Get all the elements in the cart
 // @route   GET /api/cart/
 // @access  private
 const getCartItems = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  let cart = await Cart.findOne({ userId });
-  if (!cart) {
-    cart = await createCart(userId);
-  }
+    const userId = req.user.id;
+    let cart = await Cart.findOne({ userId });
+    if (!cart) {
+        cart = await createCart(userId);
+    }
 
-  res.json(cart.items);
+    res.json(cart.items);
 });
 
 // @desc    Add an item to the cart
@@ -31,26 +31,26 @@ const getCartItems = asyncHandler(async (req, res) => {
 // @access  private
 //first step is to find the cart
 const addItemToCart = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  const { productId, quantity } = req.body;
-  // you have to check if the product still exists
+    const userId = req.user.id;
+    const { productId, quantity } = req.body;
+    // you have to check if the product still exists
 
-  const product = await Product.findOne({
-    _id: productId,
-    quantityInStock: { $gte: quantity },
-  });
+    const product = await Product.findOne({
+        _id: productId,
+        quantityInStock: { $gte: quantity },
+    });
 
-  if (!product) {
-    res.status(400);
-    throw new Error("Product doesn't exist");
-  }
+    if (!product) {
+        res.status(400);
+        throw new Error("Product doesn't exist");
+    }
 
-  let cart = await Cart.findOne({ userId });
-  if (!cart) {
-    cart = await createCart(userId);
-  }
+    let cart = await Cart.findOne({ userId });
+    if (!cart) {
+        cart = await createCart(userId);
+    }
 
-  /*
+    /*
   const productInCart = await cart.items.filter((item) => item.productId !== productId);
    if(!productInCart){
     res.status(400);
@@ -58,47 +58,49 @@ const addItemToCart = asyncHandler(async (req, res) => {
    };
    */
 
-  if (
-    !product.quantityInStock ||
-    product.quantityInStock < parseInt(quantity)
-  ) {
-    res.status(400);
-    throw new Error(
-      "The quantity requested is greater than the quantity in stock"
-    );
-  }
+    if (
+        !product.quantityInStock ||
+        product.quantityInStock < parseInt(quantity)
+    ) {
+        res.status(400);
+        throw new Error(
+            "The quantity requested is greater than the quantity in stock"
+        );
+    }
 
-  const cartItem = await CartItem.create({
-    productId,
-    name: product.name,
-    totalPrice: product.price * quantity,
-    quantity,
-    daysTillDelivery: product.daysTillDelivery,
-    image: product.mainImage,
-  });
+    const cartItem = await CartItem.create({
+        productId,
+        name: product.name,
+        price: product.price,
+        quantity,
+        daysTillDelivery: product.daysTillDelivery,
+        image: product.mainImage,
+    });
 
-  // If the cart item already exists in the cart update it
-  cart.items = cart.items.filter((item) => !item.productId.equals(productId));
-  cart.items.push(cartItem);
-  await cart.save();
+    // If the cart item already exists in the cart update it
+    cart.items = cart.items.filter((item) => !item.productId.equals(productId));
+    cart.items.push(cartItem);
+    await cart.save();
 
-  res.json(cart.items);
+    res.json(cart.items);
 });
 
 // @desc    Remove an item from the cart
 // @route   PUT /api/cart/remove
 // @access  private
 const removeItemFromCart = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  const { productId } = req.body;
-  let cart = await Cart.findOne({ userId });
-  if (!cart) {
-    res.status(400);
-    throw new Error("Can't remove a product from a cart that doesn't exist");
-  }
-  cart.items = cart.items.filter((item) => !item.productId.equals(productId));
-  await cart.save();
-  res.json(productId);
+    const userId = req.user.id;
+    const { productId } = req.body;
+    let cart = await Cart.findOne({ userId });
+    if (!cart) {
+        res.status(400);
+        throw new Error(
+            "Can't remove a product from a cart that doesn't exist"
+        );
+    }
+    cart.items = cart.items.filter((item) => !item.productId.equals(productId));
+    await cart.save();
+    res.json(productId);
 });
 
 /**
@@ -109,13 +111,18 @@ const removeItemFromCart = asyncHandler(async (req, res) => {
  * not sure if it is necessary to have this route
  */
 const getUserCart = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  const cart = await Cart.findOne({ userId });
-  if (!cart) {
-    res.status(400);
-    throw new Error("Cart doesn't exist");
-  }
-  res.json(cart);
+    const userId = req.user.id;
+    const cart = await Cart.findOne({ userId });
+    if (!cart) {
+        res.status(400);
+        throw new Error("Cart doesn't exist");
+    }
+    res.json(cart);
 });
 
-module.exports = { addItemToCart, removeItemFromCart, getCartItems,getUserCart };
+module.exports = {
+    addItemToCart,
+    removeItemFromCart,
+    getCartItems,
+    getUserCart,
+};
