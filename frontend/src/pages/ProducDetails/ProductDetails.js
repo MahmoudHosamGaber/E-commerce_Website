@@ -5,6 +5,7 @@ import { addToCart, reset } from "../../features/cart/cartSlice";
 import { AiOutlineMinus, AiOutlinePlus, AiTwotoneStar } from "react-icons/ai";
 import "./productdetails.css";
 import { toast } from "react-toastify";
+import Reviews from "../../components/Reviews/Reviews";
 
 const ProductDetails = () => {
     const [quantityCounter, setQuantityCounter] = useState(1);
@@ -12,6 +13,18 @@ const ProductDetails = () => {
     const product = useSelector((state) => state.products.selectedProduct[0]);
     const dispatch = useDispatch();
     const { isSuccess, isError, message } = useSelector((state) => state.cart);
+
+
+
+
+   
+    
+
+
+
+
+
+
 
     useEffect(() => {
         if (isError) {
@@ -119,40 +132,13 @@ const ProductDetails = () => {
                 </div>
                 <div className="reviews__container mt-5 mb-5 w-50">
                     <div className="container">
-                        <div className="total__reviews d-flex align-items-center mb-4">
-                            <h3 className="m-0">Total Reviews: </h3>
-                            <p className="m-0">
-                                {stars.map((star, index) => (
-                                    <span key={index}>{star}</span>
-                                ))}
-                            </p>
-                        </div>
-                        <div className="customers-reviews">
-                            <h5>Customer 1: </h5>
-                            <p className="m-1">
-                                {stars.map((star, index) => (
-                                    <span key={index}>{star}</span>
-                                ))}
-                            </p>
-                            <p className="ms-3">
-                                brilliant product. Exactly as shown. High
-                                quality would buy again.
-                            </p>
+                            <Reviews 
+                                product={product}
+                                stars={stars}
+                                />
 
-                            <h5 className="mt-4">Customer 2: </h5>
-                            <p className="m-1">
-                                {stars.map((star, index) => (
-                                    <span key={index}>{star}</span>
-                                ))}
-                            </p>
-                            <p className="ms-3">Quality is very good.</p>
-                        </div>
 
-                        <div className="write__review mb-4 ">
-                            <button className="write__review-button">
-                                Write a review
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </div>
