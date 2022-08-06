@@ -3,6 +3,7 @@ import productReviewService from "../../features/productReview/productReviewServ
 import CustomerReview from "./CustomerReview";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ProductReviewForm from "./ProductReviewForm";
 
 const ProductReview = ({ productId }) => {
     const token = useSelector((state) => state.auth.user.token);
@@ -28,9 +29,7 @@ const ProductReview = ({ productId }) => {
                         <div className="h3">Product Reviews</div>
                         <div className="h1">Be The First To Review</div>
                         <div className="write__review mb-4 ">
-                            <button className="write__review-button">
-                                Write a review
-                            </button>
+                            <ProductReviewForm productId={productId} />
                         </div>
                     </div>
                 </div>
@@ -58,9 +57,7 @@ const ProductReview = ({ productId }) => {
                 </div>
 
                 <div className="write__review mb-4 ">
-                    <button className="write__review-button">
-                        Write a review
-                    </button>
+                    <ProductReviewForm productId={productId} />
                 </div>
             </div>
         </div>
