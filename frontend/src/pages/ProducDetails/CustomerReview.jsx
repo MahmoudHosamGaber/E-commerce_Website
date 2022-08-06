@@ -1,18 +1,11 @@
 import { AiTwotoneStar } from "react-icons/ai";
+import { Rating } from "@mui/material";
 
 const CustomerReview = ({ customerReview }) => {
-    const stars = [];
-    for (let index = 0; index < customerReview?.stars; index++) {
-        stars.push(<AiTwotoneStar />);
-    }
     return (
         <>
             <h5>{customerReview?.username || "Anonymous User"}:</h5>
-            <p className="m-1">
-                {stars.map((star, index) => (
-                    <span key={index}>{star}</span>
-                ))}
-            </p>
+            <Rating value={customerReview?.stars} precision={0.5} readOnly />
             <p className="ms-3">{customerReview?.comment}</p>
         </>
     );

@@ -4,7 +4,7 @@ import CustomerReview from "./CustomerReview";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductReviewForm from "./ProductReviewForm";
-
+import { Rating } from "@mui/material";
 const ProductReview = ({ productId }) => {
     const token = useSelector((state) => state.auth.user.token);
     const [review, setReview] = useState({});
@@ -41,11 +41,13 @@ const ProductReview = ({ productId }) => {
             <div className="container">
                 <div className="total__reviews d-flex align-items-center mb-4">
                     <h3 className="m-0">Product Reviews: </h3>
-                    <p className="m-0">
-                        {stars.map((star, index) => (
-                            <span key={index}>{star}</span>
-                        ))}
-                    </p>
+                    <Rating
+                        name="half-rating"
+                        size="large"
+                        value={review?.reviews?.[0]?.averageStars}
+                        precision={0.5}
+                        readOnly
+                    />
                 </div>
                 <div className="customers-reviews">
                     {review?.reviewsList?.map((customerReview, index) => (
