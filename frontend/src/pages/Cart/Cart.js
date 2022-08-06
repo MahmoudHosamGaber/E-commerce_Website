@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCart } from "../../features/cart/cartSlice";
 import CartItem from "./CartItem";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
     const { cartItems } = useSelector((state) => state.cart);
@@ -25,7 +25,10 @@ const Cart = () => {
                 },
             }
         );
-        console.log(response.data.url);
+        if (!response.data.url) {
+            toast.error("Your cart is empty");
+            return;
+        }
         window.location.href = response.data.url;
     };
 
