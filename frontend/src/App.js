@@ -20,6 +20,7 @@ import {
     Security,
 } from "./pages";
 import Register from "./pages/Log-Reg/Register.js";
+import Checkout from "./pages/Checkout/Checkout";
 
 const App = () => {
     return (
@@ -40,6 +41,7 @@ const App = () => {
                 <Route path="/profile/security" element={<Security />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/SearchPage" element={<SearchPage />} />
+                <Route path="/checkout" element={<Checkout />} />
             </Routes>
             <ToastContainer />
             <Footer />

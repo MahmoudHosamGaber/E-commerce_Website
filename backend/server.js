@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", async (req, res) => {
   res.status(200).json({ message: "Hello World" });
 });
+app.post("/create-payment-intent", verifyAuth, stripeCheckout);
 app.use("/api", require("./routes/routes"));
 app.use(errorHandler);
 app.listen(port, () => console.log(`Server start on port ${port}`));

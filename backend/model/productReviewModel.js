@@ -9,6 +9,7 @@ const productReviewSchema = mongoose.Schema(
       require: true,
       ref: "User",
     },
+    username: { type: String, require: true, ref: "User",},
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       require: true,

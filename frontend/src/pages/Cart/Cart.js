@@ -30,13 +30,17 @@ const Cart = () => {
             </div>
                { cartItems.map((item) => {
                 return (
-                  <CartItem cartItem={item} />
+                  <CartItem cartItem={item} key={item.productId}/>
                 )
                 })
                }
               
               <Button className='btn1 mt-5'  href='/'>Continue shopping</Button>
-              <Button className='btn2 mt-5'  href='/'>Check out</Button>
+              <form action="/create-checkout-session" method="POST">
+                  <button type="submit">
+                         Checkout
+                  </button>
+               </form>
        </div>
      </div>
        

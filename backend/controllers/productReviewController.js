@@ -32,6 +32,7 @@ const createReview = asyncHandler(async (req, res) => {
       stars,
       comment,
       userId : req.user.id,
+      username: req.user.username,
       productId : req.params.id
     });
     if (review) {
