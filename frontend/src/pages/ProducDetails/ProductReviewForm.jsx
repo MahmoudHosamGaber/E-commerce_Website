@@ -20,7 +20,7 @@ const style = {
     p: 4,
 };
 
-const ProductReviewForm = ({ productId }) => {
+const ProductReviewForm = ({ productId, review, setReview }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -41,7 +41,10 @@ const ProductReviewForm = ({ productId }) => {
                 },
             }
         );
-        console.log(response.data);
+        setReview((review) => ({
+            ...review,
+            reviewsList: [...review.reviewsList, response.data],
+        }));
         setOpen(false);
         setRating(0);
         setComment("");

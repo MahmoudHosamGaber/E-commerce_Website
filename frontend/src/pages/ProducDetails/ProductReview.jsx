@@ -17,10 +17,7 @@ const ProductReview = ({ productId }) => {
             setReview(productReview);
         })();
     }, []);
-    const stars = [];
-    for (let i = 1; i <= Math.floor(review?.reviews?.[0]?.averageStars); i++) {
-        stars.push(<AiTwotoneStar className="ms-2" />);
-    }
+
     if (review?.reviewsList?.length === 0) {
         return (
             <div className="reviews__container mt-5 mb-5 w-100">
@@ -29,7 +26,11 @@ const ProductReview = ({ productId }) => {
                         <div className="h3">Product Reviews</div>
                         <div className="h1">Be The First To Review</div>
                         <div className="write__review mb-4 ">
-                            <ProductReviewForm productId={productId} />
+                            <ProductReviewForm
+                                productId={productId}
+                                review={review}
+                                setReview={setReview}
+                            />
                         </div>
                     </div>
                 </div>
@@ -59,7 +60,11 @@ const ProductReview = ({ productId }) => {
                 </div>
 
                 <div className="write__review mb-4 ">
-                    <ProductReviewForm productId={productId} />
+                    <ProductReviewForm
+                        productId={productId}
+                        review={review}
+                        setReview={setReview}
+                    />
                 </div>
             </div>
         </div>
