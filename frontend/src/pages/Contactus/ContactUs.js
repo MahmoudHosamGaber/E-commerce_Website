@@ -1,23 +1,36 @@
 import { Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Card, CardContent, TextField, Button } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useForm } from "../../hooks/useForm";
+import { useState } from "react";
 import axios from "axios";
 
 const ContactUs = () => {
-    const [contactData, setContactData] = useForm({
+    const initialState = {
         email: "",
         comment: "",
-    });
+    };
+    const [contactData, setContactData] = useState(initialState);
     const { email, comment } = contactData;
+
+    const clearState = () => {
+        setContactData({ ...initialState });
+    };
+
+    const onChange = (e) => {
+        setContactData((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("/api/customer/", {
-            email: email,
-            comment: comment,
-        });
+        await axios
+            .post("/api/customer/", {
+                email: email,
+                comment: comment,
+            })
+            .then(clearState);
     };
 
     return (
@@ -52,7 +65,7 @@ const ContactUs = () => {
                                         label="Email"
                                         value={email}
                                         name="email"
-                                        onChange={setContactData}
+                                        onChange={onChange}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -67,7 +80,7 @@ const ContactUs = () => {
                                         label="Comment"
                                         value={comment}
                                         name="comment"
-                                        onChange={setContactData}
+                                        onChange={onChange}
                                         variant="outlined"
                                         fullWidth
                                         required
