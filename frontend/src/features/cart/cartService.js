@@ -36,9 +36,21 @@ const removeItem = async ({ productId }, token) => {
     return response.data;
 };
 
+const deleteCart = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.put(API_URL+ "delete", config);
+    return response.data;
+};
+
+
 const cartService = {
     getCart,
     addToCart,
     removeItem,
+    deleteCart,
 };
 export default cartService;

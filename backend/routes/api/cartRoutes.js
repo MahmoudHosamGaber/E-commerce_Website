@@ -5,6 +5,7 @@ const {
   removeItemFromCart,
   getCartItems,
   getUserCart,
+  deleteCart,
 } = require("../../controllers/cartContoller");
 const { verifyAuth } = require("../../middleware/authMiddleware");
 /**
@@ -34,5 +35,12 @@ router.put("/remove", verifyAuth, removeItemFromCart);
  * not sure if it is necessary to have this route
  */
 router.get("/:id/user", verifyAuth, getUserCart);
+
+/**
+ * @desc    Delete user's cart
+ * @route   PUT /api/cart/delete
+ * @access  private
+ */
+ router.put("/delete", verifyAuth, deleteCart);
 
 module.exports = router;

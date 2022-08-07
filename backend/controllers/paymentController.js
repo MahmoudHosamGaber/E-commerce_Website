@@ -33,8 +33,8 @@ const stripeCheckout = asyncHandler(async (req, res) => {
         };
       }),
       allow_promotion_codes: true,
-      success_url: "http://localhost:3000/",
-      cancel_url: "http://localhost:3000/",
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/cancel",
     });
     res.status(200).json({ url: session.url });
   }

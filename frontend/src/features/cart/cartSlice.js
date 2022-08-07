@@ -55,6 +55,22 @@ export const removeItem = createAsyncThunk(
     }
 );
 
+// Delete user's cart
+export const deleteCart = createAsyncThunk("cart/deleteCart", async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await cartService.deleteCart(token);
+    } catch (error) {
+        const message =
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+});
+
 const initialState = {
     cartItems: [],
     isSuccess: false,
@@ -119,7 +135,22 @@ const cartSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
-            });
+            })
+            .addCase(deleteCart.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteCart.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.cartItems = [];
+            })
+            .addCase(deleteCart.rejected, (state, action) => {
+                state.message = action.payload;
+                state.isError = true;
+                state.isLoading = false;
+                state.isSuccess = false;
+            })
     },
 });
 

@@ -47,13 +47,31 @@ const Cart = () => {
                 {cartItems.map((item) => {
                     return <CartItem cartItem={item} key={item.productId} />;
                 })}
-
-                <Button className="btn1 mt-5" href="/">
-                    Continue shopping
-                </Button>
-                <Button className="btn" onClick={checkout}>
+                
+<div className="checkout-info container">
+            <div className="total-info col-lg-5 col-md-5 col-sm-12 ">
+                <div className=" shipping-days">
+                    <h4>Total price</h4>
+                    <h5>
+                        {cartItems.reduce((acc, item) => {
+                            return acc + item.price * item.quantity;
+                        }, 0)}
+                    </h5>
+                </div>
+                <div className=" shipping-days">
+                    <h4>DeliveryTime</h4>
+                    <h5>
+                        {Math.max(
+                            ...cartItems.map((item) => item.daysTillDelivery)
+                        )}
+                    </h5>
+                </div>
+            </div>
+            <Button className="btn" onClick={checkout}>
                     checkout
-                </Button>
+            </Button>
+</div>
+
             </div>
         </div>
     );

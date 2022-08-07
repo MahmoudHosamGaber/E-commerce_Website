@@ -12,8 +12,23 @@ const getAllOrders = async (token) => {
   return response.data;
 };
 
+
+//Create an order 
+const createOrder= async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios.post(`${API_URL}/api/orders`, config)
+
+  return response.data
+}
+
 const ordersService = {
   getAllOrders,
+  createOrder
 };
 
 export default ordersService;

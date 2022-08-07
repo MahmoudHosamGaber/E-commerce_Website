@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.min.js";
-import { useState } from "react";
 import { Navbar, Footer } from "./components";
 
 import {
@@ -20,8 +19,8 @@ import {
     Security,
 } from "./pages";
 import Register from "./pages/Log-Reg/Register.js";
-import Checkout from "./pages/Checkout/Checkout";
-
+import SuccessCard from "./pages/Checkout/success";
+import CancelCard from "./pages/Checkout/cancel";
 const App = () => {
     return (
         <BrowserRouter>
@@ -41,7 +40,8 @@ const App = () => {
                 <Route path="/profile/security" element={<Security />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/SearchPage" element={<SearchPage />} />
-                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/success" element={<SuccessCard />} />
+                <Route path="/cancel" element={<CancelCard />} />
             </Routes>
             <ToastContainer />
             <Footer />

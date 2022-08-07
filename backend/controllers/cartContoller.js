@@ -120,9 +120,29 @@ const getUserCart = asyncHandler(async (req, res) => {
     res.json(cart);
 });
 
+
+// @desc    Remove an item from the cart
+// @route   PUT /api/cart/delete
+// @access  private
+const deleteCart = asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+    let cart = await Cart.findOne({ userId });
+    if (!cart) {
+        res.status(400);
+        throw new Error(
+            "Can't remove cart items from a cart that doesn't exist"
+        );
+    }
+    cart.items = [];
+    await cart.save();
+    res.json(cart);
+});
+
+
 module.exports = {
     addItemToCart,
     removeItemFromCart,
     getCartItems,
     getUserCart,
+    deleteCart,
 };
