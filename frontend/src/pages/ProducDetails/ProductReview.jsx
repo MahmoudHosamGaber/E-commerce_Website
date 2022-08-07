@@ -45,7 +45,7 @@ const ProductReview = ({ productId }) => {
                     <Rating
                         name="half-rating"
                         size="large"
-                        value={review?.reviews?.[0]?.averageStars}
+                        value={parseFloat(review?.reviewAverage?.averageStars)}
                         precision={0.5}
                         readOnly
                     />

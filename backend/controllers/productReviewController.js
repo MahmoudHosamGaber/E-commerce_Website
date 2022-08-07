@@ -80,7 +80,7 @@ const getReviews = asyncHandler(async (req, res) => {
     const reviewsList = await ProductReview.find({ productId: productId });
     if (reviews) {
         res.status(200).json({
-            reviews,
+            reviewAverage: reviews[0],
             reviewsList,
         });
     } else {
