@@ -42,7 +42,7 @@ const deleteCart = async (token) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    const response = await axios.put(API_URL+ "delete", config);
+    const response = await axios.put(API_URL+ "delete", {}, config);
     return response.data;
 };
 

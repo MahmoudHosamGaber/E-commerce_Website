@@ -21,6 +21,7 @@ import {
 import Register from "./pages/Log-Reg/Register.js";
 import SuccessCard from "./pages/Checkout/success";
 import CancelCard from "./pages/Checkout/cancel";
+import ContactUs from "./pages/Contactus/ContactUs"
 const App = () => {
     return (
         <BrowserRouter>
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path="/SearchPage" element={<SearchPage />} />
                 <Route path="/success" element={<SuccessCard />} />
                 <Route path="/cancel" element={<CancelCard />} />
+                <Route path="/contactus" element={<ContactUs />} />
             </Routes>
             <ToastContainer />
             <Footer />

@@ -21,7 +21,7 @@ const createOrder= async (token) => {
     },
   }
 
-  const response = await axios.post(`${API_URL}/api/orders`, config)
+  const response = await axios.post(`${API_URL}/api/orders`,{}, config)
 
   return response.data
 }
