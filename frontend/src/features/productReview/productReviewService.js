@@ -12,7 +12,21 @@ const getReview = async (token, productId) => {
     return response.data;
 };
 
+const addReview = async (token, productId, review) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.post(
+        `${API_URL}/${productId}/review`,
+        review,
+        config
+    );
+    return response.data;
+};
 const productReviewService = {
     getReview,
+    addReview,
 };
 export default productReviewService;

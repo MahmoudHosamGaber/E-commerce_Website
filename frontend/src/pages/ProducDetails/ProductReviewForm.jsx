@@ -7,7 +7,8 @@ import Typography from "@mui/material/Typography";
 import { Rating, Slide, TextField } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
+import { toast } from "react-toastify";
+import productReviewService from "../../features/productReview/productReviewService";
 const style = {
     position: "absolute",
     top: "50%",
@@ -29,25 +30,22 @@ const ProductReviewForm = ({ productId, review, setReview }) => {
     const token = useSelector((state) => state.auth.user.token);
     const onSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post(
-            `/api/product/${productId}/review`,
+        const response = await productReviewService.addReview(
+            token,
+            productId,
             {
                 stars: rating,
-                comment: comment,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                comment,
             }
         );
         setReview((review) => ({
             ...review,
-            reviewsList: [...review.reviewsList, response.data],
+            reviewsList: [...review.reviewsList, response],
         }));
         setOpen(false);
         setRating(0);
         setComment("");
+        toast.success("Review Submitted");
     };
 
     return (
