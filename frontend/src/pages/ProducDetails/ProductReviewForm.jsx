@@ -5,7 +5,6 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Rating, Slide, TextField } from "@mui/material";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import productReviewService from "../../features/productReview/productReviewService";
