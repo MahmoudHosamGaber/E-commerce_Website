@@ -11,7 +11,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-const AdminProductCard = () => {
+const AdminProductCard = ({ product }) => {
     return (
         <Card
             sx={{
@@ -30,8 +30,8 @@ const AdminProductCard = () => {
                 <CardMedia
                     component="img"
                     display="inline-block"
-                    image="https://unsplash.it/300/200"
-                    alt="green iguana"
+                    image={product.mainImage}
+                    alt={product.name}
                     sx={{
                         aspectRatio: "16 / 9",
                         borderRadius: 2,
@@ -46,12 +46,10 @@ const AdminProductCard = () => {
                     }}
                 >
                     <Typography gutterBottom variant="h5" component="div">
-                        Lizard
+                        {product.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles,
-                        with over 6,000 species, ranging across all continents
-                        except Antarctica
+                        {product.description}
                     </Typography>
                     <Box
                         sx={{
@@ -60,8 +58,10 @@ const AdminProductCard = () => {
                             justifyContent: "space-between",
                         }}
                     >
-                        <Typography>Price: $39</Typography>
-                        <Typography>In Stock: 74</Typography>
+                        <Typography>Price: {product.price}</Typography>
+                        <Typography>
+                            In Stock: {product.quantityInStock}
+                        </Typography>
                     </Box>
                 </CardContent>
             </CardActionArea>
