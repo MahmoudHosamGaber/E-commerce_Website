@@ -18,6 +18,7 @@ import {
     FAQs,
     Cart,
     Security,
+    AdminProducts,
 } from "./pages";
 import Register from "./pages/Log-Reg/Register.js";
 import SuccessCard from "./pages/Checkout/success";
@@ -26,7 +27,7 @@ import ContactUs from "./pages/Contactus/ContactUs";
 const App = () => {
     return (
         <BrowserRouter>
-            <Navbar />
+            {/* <Navbar /> */}
             <ThemeProvider theme={mainTheme}>
                 <Routes>
                     <Route path="/products" element={<Products />} />
@@ -52,10 +53,11 @@ const App = () => {
                     <Route path="/success" element={<SuccessCard />} />
                     <Route path="/cancel" element={<CancelCard />} />
                     <Route path="/contactus" element={<ContactUs />} />
+                    <Route path="/admin-products" element={<AdminProducts />} />
                 </Routes>
             </ThemeProvider>
             <ToastContainer />
-            <Footer />
+            {/* <Footer /> */}
         </BrowserRouter>
     );
 };
