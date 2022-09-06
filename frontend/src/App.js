@@ -23,12 +23,14 @@ import Register from "./pages/Log-Reg/Register.js";
 import SuccessCard from "./pages/Checkout/success";
 import CancelCard from "./pages/Checkout/cancel";
 import ContactUs from "./pages/Contactus/ContactUs";
+import AdminLogin from "./pages/Admin/Log-in/login.js";
 const App = () => {
     return (
         <BrowserRouter>
             <Navbar />
             <ThemeProvider theme={mainTheme}>
                 <Routes>
+                    <Route path="adminLogin" element={<AdminLogin />} />
                     <Route path="/products" element={<Products />} />
                     <Route
                         path="/products/:categoryId"
