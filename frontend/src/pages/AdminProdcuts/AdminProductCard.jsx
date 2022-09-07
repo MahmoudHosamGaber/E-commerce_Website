@@ -1,16 +1,14 @@
 import {
     Box,
-    Button,
     Card,
     CardContent,
     CardMedia,
-    CardActionArea,
     CardActions,
     Typography,
 } from "@mui/material";
 import EditProductModal from "./EditProductModal";
 import DeleteProductModal from "./DeleteProductModal";
-const AdminProductCard = ({ product }) => {
+const AdminProductCard = ({ product, categories }) => {
     return (
         <Card
             sx={{
@@ -65,8 +63,8 @@ const AdminProductCard = ({ product }) => {
                 </CardContent>
             </div>
             <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-                <EditProductModal />
-                <DeleteProductModal />
+                <EditProductModal product={product} categories={categories} />
+                <DeleteProductModal id={product.id} name={product.name} />
             </CardActions>
         </Card>
     );

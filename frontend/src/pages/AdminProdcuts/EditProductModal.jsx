@@ -1,12 +1,12 @@
+import { useForm } from "../../hooks/useForm";
 import { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Slide } from "@mui/material";
+import { Autocomplete, Slide } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { TextField, FormControl } from "@mui/material";
+import { TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 
 const modalStyle = {
@@ -28,14 +28,20 @@ const formStyle = {
     width: "100%",
 };
 
-const EditProductModal = ({}) => {
+const EditProductModal = ({ product, categories }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const onSubmit = (e) => {
         e.preventDefault();
     };
-
+    const [formValues, handleInputChange] = useForm({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        brand: product.brand,
+        category: "",
+    });
     return (
         <>
             <Button
@@ -56,6 +62,7 @@ const EditProductModal = ({}) => {
                 BackdropProps={{
                     timeout: 500,
                 }}
+                keepMounted
             >
                 <Slide in={open} direction="down">
                     <Box sx={modalStyle}>
@@ -64,32 +71,39 @@ const EditProductModal = ({}) => {
                                 <TextField
                                     name="name"
                                     label="Name"
-                                    variant="filled"
+                                    variant="outlined"
+                                    value={formValues.name}
+                                    onChange={handleInputChange}
                                     fullWidth
                                 />
                                 <TextField
                                     name="description"
                                     label="Description"
-                                    variant="filled"
+                                    variant="outlined"
+                                    value={formValues.description}
+                                    onChange={handleInputChange}
                                     fullWidth
                                 />
                                 <TextField
                                     name="price"
                                     label="Price"
-                                    variant="filled"
+                                    variant="outlined"
+                                    value={formValues.price}
+                                    onChange={handleInputChange}
                                     fullWidth
                                 />
-                                <TextField
-                                    name="brand"
-                                    label="Brand"
+                                <Autocomplete
+                                    disablePortal
                                     variant="filled"
-                                    fullWidth
-                                />
-                                <TextField
-                                    name="category"
-                                    label="Category"
-                                    variant="filled"
-                                    fullWidth
+                                    options={categories.map(
+                                        (category) => category.name
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Category"
+                                        />
+                                    )}
                                 />
                                 <Button
                                     type="submit"
