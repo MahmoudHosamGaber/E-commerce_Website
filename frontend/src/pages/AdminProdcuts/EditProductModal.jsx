@@ -40,7 +40,7 @@ const EditProductModal = ({ product, categories }) => {
         description: product.description,
         price: product.price,
         brand: product.brand,
-        category: "",
+        category: product.category,
     });
     return (
         <>
@@ -104,6 +104,7 @@ const EditProductModal = ({ product, categories }) => {
                                             label="Category"
                                         />
                                     )}
+                                    value={formValues.category}
                                 />
                                 <Button
                                     type="submit"
