@@ -8,9 +8,8 @@ import {
     CardActions,
     Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-
+import EditProductModal from "./EditProductModal";
+import DeleteProductModal from "./DeleteProductModal";
 const AdminProductCard = ({ product }) => {
     return (
         <Card
@@ -19,7 +18,7 @@ const AdminProductCard = ({ product }) => {
                 flexDirection: "column",
             }}
         >
-            <CardActionArea
+            <div
                 sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -64,22 +63,10 @@ const AdminProductCard = ({ product }) => {
                         </Typography>
                     </Box>
                 </CardContent>
-            </CardActionArea>
+            </div>
             <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-                <Button
-                    variant="contained"
-                    color="info"
-                    startIcon={<EditIcon />}
-                >
-                    Edit
-                </Button>
-                <Button
-                    variant="contained"
-                    color="error"
-                    startIcon={<DeleteIcon />}
-                >
-                    Delete
-                </Button>
+                <EditProductModal />
+                <DeleteProductModal />
             </CardActions>
         </Card>
     );
