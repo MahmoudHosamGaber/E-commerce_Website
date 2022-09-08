@@ -8,6 +8,8 @@ import { Autocomplete, Slide } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import { updateProduct } from "../../features/products/productsSlice";
+import { useDispatch } from "react-redux";
 
 const modalStyle = {
     position: "absolute",
@@ -32,9 +34,9 @@ const EditProductModal = ({ product, categories, brands }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const onSubmit = (e) => {
-        e.preventDefault();
-    };
+
+    const dispatch = useDispatch();
+
     const [formValues, handleInputChange] = useForm({
         name: product.name,
         description: product.description,
@@ -48,6 +50,22 @@ const EditProductModal = ({ product, categories, brands }) => {
     const onBrandChange = (e, newValue) => {
         setBrand(newValue);
     };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const categoryId = categories.find((c) => c.name === category)._id;
+        const brandId = brands.find((b) => b.name === brand)._id;
+
+        dispatch(
+            updateProduct({
+                ...formValues,
+                category: categoryId,
+                brand: brandId,
+                _id: product._id,
+            })
+        );
+    };
+
     return (
         <>
             <Button
