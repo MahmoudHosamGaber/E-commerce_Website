@@ -28,7 +28,7 @@ const formStyle = {
     width: "100%",
 };
 
-const EditProductModal = ({ product, categories }) => {
+const EditProductModal = ({ product, categories, brands }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -39,9 +39,15 @@ const EditProductModal = ({ product, categories }) => {
         name: product.name,
         description: product.description,
         price: product.price,
-        brand: product.brand,
-        category: product.category,
     });
+    const [category, setCategory] = useState(product.category);
+    const [brand, setBrand] = useState(product.brand);
+    const onCategoryChange = (e, newValue) => {
+        setCategory(newValue);
+    };
+    const onBrandChange = (e, newValue) => {
+        setBrand(newValue);
+    };
     return (
         <>
             <Button
@@ -74,6 +80,7 @@ const EditProductModal = ({ product, categories }) => {
                                     variant="outlined"
                                     value={formValues.name}
                                     onChange={handleInputChange}
+                                    required
                                     fullWidth
                                 />
                                 <TextField
@@ -82,6 +89,7 @@ const EditProductModal = ({ product, categories }) => {
                                     variant="outlined"
                                     value={formValues.description}
                                     onChange={handleInputChange}
+                                    required
                                     fullWidth
                                 />
                                 <TextField
@@ -90,6 +98,7 @@ const EditProductModal = ({ product, categories }) => {
                                     variant="outlined"
                                     value={formValues.price}
                                     onChange={handleInputChange}
+                                    required
                                     fullWidth
                                 />
                                 <Autocomplete
@@ -104,7 +113,18 @@ const EditProductModal = ({ product, categories }) => {
                                             label="Category"
                                         />
                                     )}
-                                    value={formValues.category}
+                                    onChange={onCategoryChange}
+                                    value={category}
+                                />
+                                <Autocomplete
+                                    disablePortal
+                                    variant="filled"
+                                    options={brands.map((brand) => brand.name)}
+                                    renderInput={(params) => (
+                                        <TextField {...params} label="Brand" />
+                                    )}
+                                    onChange={onBrandChange}
+                                    value={brand}
                                 />
                                 <Button
                                     type="submit"

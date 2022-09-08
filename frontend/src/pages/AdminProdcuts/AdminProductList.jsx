@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import AdminProductCard from "./AdminProductCard";
 
-const AdminProductList = ({ products, categories }) => {
+const AdminProductList = ({ products, categories, brands }) => {
     return (
         <Box
             sx={{
@@ -15,6 +15,7 @@ const AdminProductList = ({ products, categories }) => {
                     key={product.id}
                     product={product}
                     categories={categories}
+                    brands={brands}
                 />
             ))}
         </Box>

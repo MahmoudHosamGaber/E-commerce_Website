@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import EditProductModal from "./EditProductModal";
 import DeleteProductModal from "./DeleteProductModal";
-const AdminProductCard = ({ product, categories }) => {
+const AdminProductCard = ({ product, categories, brands }) => {
     return (
         <Card
             sx={{
@@ -63,7 +63,11 @@ const AdminProductCard = ({ product, categories }) => {
                 </CardContent>
             </div>
             <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-                <EditProductModal product={product} categories={categories} />
+                <EditProductModal
+                    product={product}
+                    categories={categories}
+                    brands={brands}
+                />
                 <DeleteProductModal id={product.id} name={product.name} />
             </CardActions>
         </Card>
