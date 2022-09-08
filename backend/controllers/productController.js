@@ -165,8 +165,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error("The product you are trying to update doesn't exist");
     }
-
-    res.status(200).json(product);
+    res.status(200).json({ id, ...req.body });
 });
 
 module.exports = {
