@@ -19,7 +19,7 @@ const style = {
     p: 4,
 };
 
-const DeleteProductModal = () => {
+const DeleteProductModal = ({ id, name }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -58,7 +58,7 @@ const DeleteProductModal = () => {
                             id="transition-modal-description"
                             sx={{ mt: 2 }}
                         >
-                            Are you sure you want to delete this product?
+                            Are you sure you want to delete {name}?
                         </Typography>
                         <Box
                             sx={{
