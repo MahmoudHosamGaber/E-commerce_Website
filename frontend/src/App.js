@@ -26,7 +26,6 @@ import CancelCard from "./pages/Checkout/cancel";
 import ContactUs from "./pages/Contactus/ContactUs";
 import AdminLogin from "./pages/Admin/Log-in/login.js";
 import AdminDB from "./components/Admin/AdminDB.js";
-import AdminProducts from "./components/Admin/views/AdminProducts.js";
 import AdminOrders from "./components/Admin/views/AdminOrders.js";
 import AdminUsers from "./components/Admin/views/AdminUsers.js";
 const App = () => {
@@ -64,7 +63,6 @@ const App = () => {
                     <Route path="/success" element={<SuccessCard />} />
                     <Route path="/cancel" element={<CancelCard />} />
                     <Route path="/contactus" element={<ContactUs />} />
-                    <Route path="/admin-products" element={<AdminProducts />} />
                 </Routes>
             </ThemeProvider>
             <ToastContainer />
