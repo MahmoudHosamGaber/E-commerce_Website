@@ -1,0 +1,8 @@
+*{
+    text-transform: capitalize;
+}
+main{
+    position: absolute;
+    top: 70px;
+    left: 350px;
+}

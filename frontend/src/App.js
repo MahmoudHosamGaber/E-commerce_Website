@@ -24,12 +24,23 @@ import Register from "./pages/Log-Reg/Register.js";
 import SuccessCard from "./pages/Checkout/success";
 import CancelCard from "./pages/Checkout/cancel";
 import ContactUs from "./pages/Contactus/ContactUs";
+import AdminLogin from "./pages/Admin/Log-in/login.js";
+import AdminDB from "./components/Admin/AdminDB.js";
+import AdminProducts from "./components/Admin/views/AdminProducts.js";
+import AdminOrders from "./components/Admin/views/AdminOrders.js";
+import AdminUsers from "./components/Admin/views/AdminUsers.js";
 const App = () => {
     return (
         <BrowserRouter>
             {/* <Navbar /> */}
             <ThemeProvider theme={mainTheme}>
                 <Routes>
+                    <Route path="/admin" element={<AdminDB />} />
+                    <Route path="/admin/products" element={<AdminProducts />} />
+                    <Route path="/admin/orders" element={<AdminOrders />} />
+                    <Route path="/admin/users" element={<AdminUsers />} />
+
+                    <Route path="adminLogin" element={<AdminLogin />} />
                     <Route path="/products" element={<Products />} />
                     <Route
                         path="/products/:categoryId"
