@@ -7,8 +7,8 @@ import Typography from "@mui/material/Typography";
 import { Slide } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteProduct } from "../../features/products/productsSlice";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 const style = {
     position: "absolute",
     top: "50%",
@@ -22,14 +22,21 @@ const style = {
 };
 
 const DeleteProductModal = ({ id, name }) => {
+    const { isError, isSuccess, message } = useSelector(
+        (state) => state.products
+    );
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const onDelete = () => {
-        console.log(id);
         dispatch(deleteProduct(id));
         handleClose();
+        if (isSuccess) {
+            toast.success(`${name} has been deleted`);
+        } else if (isError) {
+            toast.error(message);
+        }
     };
 
     return (

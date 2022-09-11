@@ -9,7 +9,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { updateProduct } from "../../features/products/productsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const modalStyle = {
     position: "absolute",
@@ -34,7 +35,9 @@ const EditProductModal = ({ product, categories, brands }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    const { isError, isSuccess, message } = useSelector(
+        (state) => state.products
+    );
     const dispatch = useDispatch();
 
     const [formValues, handleInputChange] = useForm({
@@ -64,6 +67,11 @@ const EditProductModal = ({ product, categories, brands }) => {
                 _id: product._id,
             })
         );
+        if (isSuccess) {
+            toast.success(`${product.name} has been updated`);
+        } else if (isError) {
+            toast.error(message);
+        }
     };
 
     return (
