@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Slide } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteProduct } from "../../features/products/productsSlice";
+import { useDispatch } from "react-redux";
 
 const style = {
     position: "absolute",
@@ -20,9 +22,15 @@ const style = {
 };
 
 const DeleteProductModal = ({ id, name }) => {
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const onDelete = () => {
+        console.log(id);
+        dispatch(deleteProduct(id));
+        handleClose();
+    };
 
     return (
         <>
@@ -71,7 +79,11 @@ const DeleteProductModal = ({ id, name }) => {
                             <Button variant="outlined" onClick={handleClose}>
                                 Cancel
                             </Button>
-                            <Button variant="contained" color="error">
+                            <Button
+                                variant="contained"
+                                onClick={onDelete}
+                                color="error"
+                            >
                                 Delete
                             </Button>
                         </Box>

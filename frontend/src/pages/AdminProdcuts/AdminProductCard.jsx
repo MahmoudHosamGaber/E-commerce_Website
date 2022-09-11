@@ -31,7 +31,6 @@ const AdminProductCard = ({ product, categories, brands }) => {
                     alt={product.name}
                     sx={{
                         aspectRatio: "16 / 9",
-                        borderRadius: 2,
                     }}
                 />
                 <CardContent
@@ -68,7 +67,7 @@ const AdminProductCard = ({ product, categories, brands }) => {
                     categories={categories}
                     brands={brands}
                 />
-                <DeleteProductModal id={product.id} name={product.name} />
+                <DeleteProductModal id={product._id} name={product.name} />
             </CardActions>
         </Card>
     );
