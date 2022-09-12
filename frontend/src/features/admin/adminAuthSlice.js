@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import adminAuthService from "./adminAuthService";
 
+const admin = JSON.parse(localStorage.getItem("admin"));
+
 const initialState = {
-    admin: null,
+    admin: admin ? admin : null,
     isError: false,
     isSuccess: false,
     isLoading: false,

@@ -9,6 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteProduct } from "../../features/products/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import {reset} from "../../features/products/productsSlice";
 const style = {
     position: "absolute",
     top: "50%",
@@ -37,6 +38,10 @@ const DeleteProductModal = ({ id, name }) => {
         } else if (isError) {
             toast.error(message);
         }
+        setTimeout(() => {
+            dispatch(reset())
+        },2000)
+        
     };
 
     return (

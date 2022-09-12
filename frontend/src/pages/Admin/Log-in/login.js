@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-//import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import { adminLogin, reset } from "../../../features/admin/adminAuthSlice";
 const AdminLogin = () => {
@@ -21,7 +21,7 @@ const AdminLogin = () => {
 
     const { email, password } = formData;
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     // error here in the first line make the page go blank 
   const {admin, isError, isSuccess, message} = useSelector((state) => state.admin)
@@ -33,11 +33,12 @@ const AdminLogin = () => {
 
     if (isSuccess) {
         //Change that when any of the admin pages are done
+      navigate("/admin/products")
       toast.success("you are successfully logged in")
     }
 
     dispatch(reset())
-  }, [admin, isError, isSuccess, message, dispatch])
+  }, [admin, isError, isSuccess, message, navigate, dispatch])
  
     const onChange = (e) => {
         setFormData((prevState) => ({

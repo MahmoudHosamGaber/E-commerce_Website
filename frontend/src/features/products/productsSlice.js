@@ -12,32 +12,34 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
     "products/updateProduct",
-    async (product, { getState, rejectWithValue }) => {
+    async (product, thunkAPI) => {
         try {
-            const response = await productsService.updateSingleProduct(product);
+            const token = thunkAPI.getState().admin.admin.token;
+            const response = await productsService.updateSingleProduct(product, token);
             return response;
         } catch (error) {
             const message =
                 error?.response?.data?.message ||
                 error.message ||
                 error.toString();
-            return rejectWithValue(message);
+            return thunkAPI.rejectWithValue(message);
         }
     }
 );
 
 export const deleteProduct = createAsyncThunk(
     "products/deleteProduct",
-    async (id, { getState, rejectWithValue }) => {
+    async (id, thunkAPI) => {
         try {
-            const response = await productsService.deleteSingleProduct(id);
+            const token = thunkAPI.getState().admin.admin.token;
+            const response = await productsService.deleteSingleProduct(id, token);
             return response;
         } catch (error) {
             const message =
                 error?.response?.data?.message ||
                 error.message ||
                 error.toString();
-            return rejectWithValue(message);
+            return thunkAPI.rejectWithValue(message);
         }
     }
 );
@@ -55,6 +57,12 @@ export const productsSlice = createSlice({
     reducers: {
         addProductDetails: (state, action) => {
             state.selectedProduct = action.payload;
+        },
+        reset: (state) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isError = false;
+            state.message = "";
         },
     },
     extraReducers(builder) {
@@ -95,6 +103,7 @@ export const productsSlice = createSlice({
             .addCase(deleteProduct.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
+                state.isSuccess = false;
                 state.message = action.payload;
             })
             .addCase(deleteProduct.pending, (state, action) => {
@@ -103,5 +112,5 @@ export const productsSlice = createSlice({
     },
 });
 
-export const { addProductDetails } = productsSlice.actions;
+export const { addProductDetails, reset } = productsSlice.actions;
 export default productsSlice.reducer;
