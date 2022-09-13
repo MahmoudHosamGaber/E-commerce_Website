@@ -24,9 +24,20 @@ const deleteSingleProduct = async (productId, token) => {
     return response.data;
 };
 
+const addProduct = async (product, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.post("/api/products", product, config);
+    return response.data;
+};
+
 const productService = {
     updateSingleProduct,
     deleteSingleProduct,
+    addProduct,
 };
 
 export default productService;

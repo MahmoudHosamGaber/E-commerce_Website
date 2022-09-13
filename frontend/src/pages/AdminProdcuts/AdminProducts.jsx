@@ -6,9 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../features/categories/categoriesSlice";
 import { getBrands } from "../../features/brands/brandsSlice";
 import Spinner from "../../components/Spinner";
+import AddProductModal from "./AddProductModal";
+import { toast } from "react-toastify";
+import { reset } from "../../features/products/productsSlice";
 
 const AdminProducts = () => {
-    let { allProducts } = useSelector((state) => state.products);
+    let { allProducts, isError, message } = useSelector(
+        (state) => state.products
+    );
     const { categories } = useSelector((state) => state.categories);
     const brands = useSelector((state) => state.brands.brands);
     const productIsLoading = useSelector((state) => state.products.isLoading);
@@ -22,7 +27,9 @@ const AdminProducts = () => {
         dispatch(fetchAllProducts());
         dispatch(getCategories());
         dispatch(getBrands());
-    }, [dispatch]);
+        if (isError) toast.error(message);
+        dispatch(reset());
+    }, [dispatch, isError, message]);
     const isLoading = productIsLoading || categoryIsLoading || brandIsLoading;
 
     if (isLoading) return <Spinner />;
@@ -41,6 +48,7 @@ const AdminProducts = () => {
 
     return (
         <Container maxWidth="lg">
+            <AddProductModal categories={categories} brands={brands} />
             <AdminProductList
                 products={allProducts}
                 categories={categories}
