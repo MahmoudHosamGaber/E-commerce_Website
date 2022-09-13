@@ -101,7 +101,7 @@ export const productsSlice = createSlice({
                     return product;
                 });
                 state.isSuccess = true;
-                state.message = "";
+                state.message = "Product Updated Successfully";
                 state.isLoading = false;
                 state.isError = false;
             })
@@ -114,12 +114,11 @@ export const productsSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(deleteProduct.fulfilled, (state, action) => {
-                console.log(action.payload);
                 state.allProducts = state.allProducts.filter(
                     (product) => product._id !== action.payload._id
                 );
                 state.isSuccess = true;
-                state.message = "";
+                state.message = "Product Deleted Successfully";
                 state.isLoading = false;
                 state.isError = false;
             })
@@ -135,7 +134,7 @@ export const productsSlice = createSlice({
             .addCase(addProduct.fulfilled, (state, action) => {
                 state.allProducts = [...state.allProducts, action.payload];
                 state.isSuccess = true;
-                state.message = "";
+                state.message = "Product Added Successfully";
                 state.isLoading = false;
                 state.isError = false;
             })

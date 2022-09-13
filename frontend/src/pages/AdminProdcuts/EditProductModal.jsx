@@ -67,11 +67,6 @@ const EditProductModal = ({ product, categories, brands }) => {
                 _id: product._id,
             })
         );
-        if (isSuccess) {
-            toast.success(`${product.name} has been updated`);
-        } else if (isError) {
-            toast.error(message);
-        }
     };
 
     return (

@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { reset } from "../../features/products/productsSlice";
 
 const AdminProducts = () => {
-    let { allProducts, isError, message } = useSelector(
+    let { allProducts, isSuccess, isError, message } = useSelector(
         (state) => state.products
     );
     const { categories } = useSelector((state) => state.categories);
@@ -27,9 +27,12 @@ const AdminProducts = () => {
         dispatch(fetchAllProducts());
         dispatch(getCategories());
         dispatch(getBrands());
+    }, [dispatch]);
+    useEffect(() => {
+        if (isSuccess) toast.success(message);
         if (isError) toast.error(message);
         dispatch(reset());
-    }, [dispatch, isError, message]);
+    }, [dispatch, isSuccess, isError, message]);
     const isLoading = productIsLoading || categoryIsLoading || brandIsLoading;
 
     if (isLoading) return <Spinner />;
