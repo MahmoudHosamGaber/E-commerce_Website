@@ -31,7 +31,6 @@ import AdminUsers from "./components/Admin/views/AdminUsers.js";
 const App = () => {
     return (
         <BrowserRouter>
-            <Navbar />
             <ThemeProvider theme={mainTheme}>
                 <Routes>
                     <Route path="/admin" element={<AdminDB />} />
@@ -66,7 +65,6 @@ const App = () => {
                 </Routes>
             </ThemeProvider>
             <ToastContainer />
-            <Footer />
         </BrowserRouter>
     );
 };

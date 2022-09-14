@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import adminAuthService from "./adminAuthService";
 
+const admin = JSON.parse(localStorage.getItem("admin"));
 const initialState = {
-    admin: null,
+    admin: admin ? admin : null,
+    users: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -27,6 +29,24 @@ export const adminLogin = createAsyncThunk(
     }
 );
 
+// Admin get all users
+export const getUsers = createAsyncThunk(
+    "admin/getUsers",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.getUsers(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
 export const adminAuthSlice = createSlice({
     name: "admin",
     initialState,
@@ -53,6 +73,21 @@ export const adminAuthSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 state.admin = null;
+            })
+            .addCase(getUsers.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getUsers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.isError = false;
+                state.users = action.payload;
+            })
+            .addCase(getUsers.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+                state.users = [];
             });
     },
 });
