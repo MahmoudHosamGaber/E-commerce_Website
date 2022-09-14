@@ -64,6 +64,21 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
     res.json(product);
 });
+/**
+ * @desc    Get Archived products (Quantity in stock = 0)
+ * @route   GET /api/products/archived
+ * @access  Private Admin
+ * */
+const getArchivedProducts = asyncHandler(async (req, res) => {
+    const products = await Product.aggregate([
+        {
+            $match: { quantityInStock: { $lte: 0 } },
+        },
+    ]);
+    res.status(200).json({
+        products,
+    });
+});
 
 /**
  * @desc    Create product
@@ -187,4 +202,5 @@ module.exports = {
     updateProduct,
     createProduct,
     deleteProduct,
+    getArchivedProducts,
 };

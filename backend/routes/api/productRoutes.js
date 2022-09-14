@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const {
-  updateProduct,
-  createProduct,
-  getProduct,
-  getAllProducts,
-  deleteProduct,
+    updateProduct,
+    createProduct,
+    getProduct,
+    getAllProducts,
+    deleteProduct,
+    getArchivedProducts,
 } = require("../../controllers/productController");
 const { verifyAdmin } = require("../../middleware/authMiddleware");
 
@@ -15,6 +16,13 @@ const { verifyAdmin } = require("../../middleware/authMiddleware");
  * @access  Public
  */
 router.get("/", getAllProducts);
+
+/**
+ * @Desc get Archived Products
+ * @route GET api/products/
+ * @access  Public
+ */
+router.get("/archived", verifyAdmin, getArchivedProducts);
 
 /**
  * @Desc Select single Product
