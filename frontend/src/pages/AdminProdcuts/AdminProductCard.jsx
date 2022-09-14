@@ -4,10 +4,12 @@ import {
     CardContent,
     CardMedia,
     CardActions,
+    CardActionArea,
     Typography,
 } from "@mui/material";
 import EditProductModal from "./EditProductModal";
 import DeleteProductModal from "./DeleteProductModal";
+import EditImagesModal from "./EditImagesModal";
 const AdminProductCard = ({ product, categories, brands }) => {
     return (
         <Card
@@ -24,15 +26,7 @@ const AdminProductCard = ({ product, categories, brands }) => {
                     padding: 2,
                 }}
             >
-                <CardMedia
-                    component="img"
-                    display="inline-block"
-                    image={product.mainImage}
-                    alt={product.name}
-                    sx={{
-                        aspectRatio: "16 / 9",
-                    }}
-                />
+                <EditImagesModal product={product} />
                 <CardContent
                     sx={{
                         display: "flex",
