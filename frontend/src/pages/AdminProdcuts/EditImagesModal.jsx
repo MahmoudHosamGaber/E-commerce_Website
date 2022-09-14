@@ -72,7 +72,9 @@ const EditProductModal = ({ product }) => {
     };
     const onRemoveImage = (image) => {
         const imageIndex = images.indexOf(image);
-        setImages(images.splice(imageIndex, 1));
+        const newImages = [...images];
+        newImages.splice(imageIndex, 1);
+        setImages(newImages);
     };
 
     const onSubmit = (e) => {
