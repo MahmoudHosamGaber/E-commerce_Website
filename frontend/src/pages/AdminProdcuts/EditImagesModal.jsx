@@ -10,6 +10,7 @@ import {
     CardMedia,
     CardActionArea,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { updateProduct } from "../../features/products/productsSlice";
 import { useDispatch } from "react-redux";
@@ -59,6 +60,7 @@ const EditProductModal = ({ product }) => {
     const onMainImageChange = (e) => {
         setMainImage(e.target.value);
     };
+
     const [images, setImages] = useState(product.images);
     const [image, setImage] = useState("");
     const onImagesChange = (e) => {
