@@ -50,6 +50,23 @@ export const deleteProduct = createAsyncThunk(
     }
 );
 
+export const getArchivedProducts = createAsyncThunk(
+    "products/getArchivedProducts",
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().admin.admin.token;
+            const response = await productsService.getArchivedProducts(token);
+            return response.products;
+        } catch (error) {
+            const message =
+                error?.response?.data?.message ||
+                error.message ||
+                error.toString();
+            return rejectWithValue(message);
+        }
+    }
+);
+
 export const addProduct = createAsyncThunk(
     "products/addProduct",
     async (product, { getState, rejectWithValue }) => {
@@ -71,6 +88,7 @@ export const productsSlice = createSlice({
     name: "products",
     initialState: {
         allProducts: [],
+        archivedProducts: [],
         selectedProduct: [],
         isLoading: false,
         isError: false,
@@ -117,6 +135,10 @@ export const productsSlice = createSlice({
                 state.allProducts = state.allProducts.filter(
                     (product) => product._id !== action.payload._id
                 );
+                state.archivedProducts = state.archivedProducts.concat({
+                    ...action.payload,
+                    quantityInStock: 0,
+                });
                 state.isSuccess = true;
                 state.message = "Product Deleted Successfully";
                 state.isLoading = false;
@@ -145,6 +167,19 @@ export const productsSlice = createSlice({
                 state.message = action.payload;
             })
             .addCase(addProduct.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(getArchivedProducts.fulfilled, (state, action) => {
+                state.archivedProducts = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(getArchivedProducts.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.payload;
+            })
+            .addCase(getArchivedProducts.pending, (state, action) => {
                 state.isLoading = true;
             });
     },

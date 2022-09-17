@@ -34,10 +34,21 @@ const addProduct = async (product, token) => {
     return response.data;
 };
 
+const getArchivedProducts = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get("/api/products/archived", config);
+    return response.data;
+};
+
 const productService = {
     updateSingleProduct,
     deleteSingleProduct,
     addProduct,
+    getArchivedProducts,
 };
 
 export default productService;

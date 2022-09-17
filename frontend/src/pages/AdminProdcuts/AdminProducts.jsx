@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import AdminProductList from "./AdminProductList";
-import { Container } from "@mui/material";
-import { fetchAllProducts } from "../../features/products/productsSlice";
+import { Container, Button, ButtonGroup, Box } from "@mui/material";
+import {
+    fetchAllProducts,
+    getArchivedProducts,
+} from "../../features/products/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../features/categories/categoriesSlice";
 import { getBrands } from "../../features/brands/brandsSlice";
@@ -11,9 +14,8 @@ import { toast } from "react-toastify";
 import { reset } from "../../features/products/productsSlice";
 
 const AdminProducts = () => {
-    let { allProducts, isSuccess, isError, message } = useSelector(
-        (state) => state.products
-    );
+    let { allProducts, archivedProducts, isSuccess, isError, message } =
+        useSelector((state) => state.products);
     const { categories } = useSelector((state) => state.categories);
     const brands = useSelector((state) => state.brands.brands);
     const productIsLoading = useSelector((state) => state.products.isLoading);
@@ -25,6 +27,7 @@ const AdminProducts = () => {
 
     useEffect(() => {
         dispatch(fetchAllProducts());
+        dispatch(getArchivedProducts());
         dispatch(getCategories());
         dispatch(getBrands());
     }, [dispatch]);
@@ -48,12 +51,35 @@ const AdminProducts = () => {
         const productBrand = brandMap[product.brand];
         return { ...product, category: productCategory, brand: productBrand };
     });
+    archivedProducts = archivedProducts.map((product) => {
+        const productCategory = categoryMap[product.category];
+        const productBrand = brandMap[product.brand];
+        return { ...product, category: productCategory, brand: productBrand };
+    });
+    const products = {
+        activeProducts: allProducts,
+        archivedProducts: archivedProducts,
+    };
 
     return (
         <Container maxWidth="lg">
-            <AddProductModal categories={categories} brands={brands} />
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 2,
+                    marginBottom: 2,
+                }}
+            >
+                <AddProductModal categories={categories} brands={brands} />
+                <ButtonGroup variant="contained">
+                    <Button href="#active-products">Active Products</Button>
+                    <Button href="#archived-products">Archived Products</Button>
+                </ButtonGroup>
+            </Box>
             <AdminProductList
-                products={allProducts}
+                products={products}
                 categories={categories}
                 brands={brands}
             />
