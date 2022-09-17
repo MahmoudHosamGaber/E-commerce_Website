@@ -47,6 +47,46 @@ export const getUsers = createAsyncThunk(
         }
     }
 );
+
+// Admin changes user status
+export const changeUserStatus = createAsyncThunk(
+    "admin/changeUserStatus",
+    async (userData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.changeUserStatus(userData, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+// Admin changes user password
+
+export const changeUserPassword = createAsyncThunk(
+    "admin/changeUserPassword",
+    async (userData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.changeUserPassword(userData, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const adminAuthSlice = createSlice({
     name: "admin",
     initialState,
@@ -88,6 +128,46 @@ export const adminAuthSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 state.users = [];
+            })
+            .addCase(changeUserStatus.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(changeUserStatus.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.users = state.users.map((user) => {
+                    if (user._id === action.payload._id) {
+                        return { ...user, ...action.payload };
+                    }
+                    return user;
+                });
+            })
+            .addCase(changeUserStatus.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(changeUserPassword.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(changeUserPassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.users = state.users.map((user) => {
+                    if (user._id === action.payload._id) {
+                        return { ...user, ...action.payload };
+                    }
+                    return user;
+                });
+            })
+            .addCase(changeUserPassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
             });
     },
 });
