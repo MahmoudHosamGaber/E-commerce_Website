@@ -4,10 +4,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Slide } from "@mui/material";
+import { FormControl, FormControlLabel, Slide, TextField } from "@mui/material";
 import { updateProduct } from "../../features/products/productsSlice";
 import { useDispatch } from "react-redux";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import { FormLabel } from "react-bootstrap";
 const style = {
     position: "absolute",
     top: "50%",
@@ -25,8 +26,9 @@ const RestoreProductModal = ({ id, name }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [quantityInStock, setQuantityInStock] = useState(0);
     const onRestore = () => {
-        dispatch(updateProduct({ _id: id, quantityInStock: 1 }));
+        dispatch(updateProduct({ _id: id, quantityInStock: quantityInStock }));
         handleClose();
     };
 
@@ -58,12 +60,22 @@ const RestoreProductModal = ({ id, name }) => {
                         >
                             Restore Product
                         </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ mt: 2 }}
-                        >
-                            Are you sure you want to restore {name}?
-                        </Typography>
+                        <FormControl>
+                            <FormLabel
+                                id="transition-modal-description"
+                                sx={{ mt: 2 }}
+                            >
+                                Pleas Set the quantity in stock for {name}
+                            </FormLabel>
+                            <TextField
+                                label="Quantity in stock"
+                                type="number"
+                                defaultValue={quantityInStock}
+                                onChange={(e) =>
+                                    setQuantityInStock(e.target.value)
+                                }
+                            />
+                        </FormControl>
                         <Box
                             sx={{
                                 display: "flex",
