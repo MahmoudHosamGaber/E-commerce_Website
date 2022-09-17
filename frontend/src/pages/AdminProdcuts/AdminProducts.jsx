@@ -74,8 +74,8 @@ const AdminProducts = () => {
             >
                 <AddProductModal categories={categories} brands={brands} />
                 <ButtonGroup variant="contained">
-                    <Button href="#active-products">Active Products</Button>
-                    <Button href="#archived-products">Archived Products</Button>
+                    <Button href="#active-products" sx={{marginRight : "2px"}}>Active Products</Button>
+                    <Button href="#archived-products" sx={{marginLeft : "3px"}}>Archived Products</Button>
                 </ButtonGroup>
             </Box>
             <AdminProductList
