@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import { Provider } from "react-redux";
 
-import { persistor, store } from "./features/store";
-import { PersistGate } from "redux-persist/integration/react";
+import { store } from "./features/store";
 import App from "./App";
 
 ReactDOM.render(
