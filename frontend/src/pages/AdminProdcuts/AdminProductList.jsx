@@ -17,7 +17,6 @@ const headingStyle = {
 };
 
 const AdminProductList = ({ products, categories, brands }) => {
-    console.log(products);
     return (
         <>
             <Typography

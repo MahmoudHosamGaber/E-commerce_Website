@@ -26,7 +26,7 @@ const RestoreProductModal = ({ id, name }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [quantityInStock, setQuantityInStock] = useState(0);
+    const [quantityInStock, setQuantityInStock] = useState(1);
     const onRestore = () => {
         dispatch(updateProduct({ _id: id, quantityInStock: quantityInStock }));
         handleClose();

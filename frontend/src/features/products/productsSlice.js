@@ -112,12 +112,41 @@ export const productsSlice = createSlice({
                 state.allProducts = action.payload;
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
+                const updatedProduct = state.archivedProducts.find(
+                    (product) => product._id === action.payload._id
+                );
+                if (
+                    updatedProduct &&
+                    action.payload.quantityInStock &&
+                    updatedProduct.quantityInStock === 0 &&
+                    action.payload.quantityInStock > 0
+                ) {
+                    state.allProducts.push({
+                        ...updatedProduct,
+                        ...action.payload,
+                    });
+                    state.archivedProducts = state.archivedProducts.filter(
+                        (product) => product._id !== action.payload._id
+                    );
+                }
+
                 state.allProducts = state.allProducts.map((product) => {
                     if (product._id === action.payload._id) {
                         return { ...product, ...action.payload };
                     }
+
                     return product;
                 });
+                state.archivedProducts = state.archivedProducts.map(
+                    (product) => {
+                        if (product._id === action.payload._id) {
+                            return { ...product, ...action.payload };
+                        }
+
+                        return product;
+                    }
+                );
+
                 state.isSuccess = true;
                 state.message = "Product Updated Successfully";
                 state.isLoading = false;
