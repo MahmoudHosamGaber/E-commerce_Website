@@ -32,22 +32,25 @@ const modalStyle = {
 };
 const editImageHover = {
     position: "relative",
+    "&:after": {
+        content: '"Edit Images"',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "white",
+        fontSize: "1.5rem",
+        fontWeight: "bold",
+        opacity: 0,
+        transition: "opacity 250ms ease-in-out",
+    },
     "&:hover": {
-        "&::after": {
-            content: '"Edit Images"',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            color: "white",
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-        },
+        "&::after": { opacity: 1 },
     },
 };
 const EditProductModal = ({ product }) => {
