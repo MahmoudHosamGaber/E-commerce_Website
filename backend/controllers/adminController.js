@@ -57,7 +57,7 @@ const generateToken = (id) => {
 
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
-  res.status(200).json({ users });
+  res.status(200).json(users);
 });
 /**
  * @desc    new user password
@@ -111,7 +111,8 @@ const changeUserStatus = asyncHandler(async (req, res) => {
     throw new Error("Invalid user email");
   }
   await User.findByIdAndUpdate(user.id, { status });
-  res.status(200).json({ message: `Status updated successfully to ${status}` });
+  const updatedUser = await User.findById(user.id);
+  res.status(200).json(updatedUser);
 });
 
 /**
