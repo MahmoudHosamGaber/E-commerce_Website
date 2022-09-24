@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import { getUsers } from "../../../features/admin/adminAuthSlice";
+import { getOrders } from "../../../features/admin/adminAuthSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
@@ -19,8 +19,13 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import EditUser from "./EditUser";
-import {reset} from "../../../features/admin/adminAuthSlice"
+import Grid from "@mui/material/Grid";
+import EditOrder from "./EditOrder";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { reset } from "../../../features/admin/adminAuthSlice";
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -99,13 +104,15 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-const AdminUsers = () => {
-    const { users, isSuccess, isError, message } = useSelector((state) => state.admin);
+const AdminOrders = () => {
+    const { orders, isSuccess, isError, message } = useSelector(
+        (state) => state.admin
+    );
     const dispatch = useDispatch();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orders.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -117,15 +124,14 @@ const AdminUsers = () => {
     };
 
     useEffect(() => {
-        dispatch(getUsers());
+        dispatch(getOrders());
     }, [dispatch]);
-
 
     useEffect(() => {
         if (isError) {
             toast.error(message);
         }
-        if(isSuccess){
+        if (isSuccess) {
             toast.success(message);
         }
         dispatch(reset());
@@ -135,6 +141,7 @@ const AdminUsers = () => {
         <TableContainer
             component={Paper}
             sx={{
+                height: "fit-content",
                 maxWidth: 950,
                 margin: "auto",
                 display: "flex",
@@ -143,19 +150,25 @@ const AdminUsers = () => {
             }}
         >
             <Table
-                sx={{ minWidth: 650, maxWidth: 950, padding: "5px" }}
+                sx={{ minWidth: 650, maxWidth: 950 }}
                 aria-label="custom pagination table"
             >
                 <TableHead sx={{ backgroundColor: "#013A81" }}>
                     <TableRow>
                         <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                            E-mail
+                            ID
                         </TableCell>
                         <TableCell
                             align="right"
                             sx={{ color: "white", fontWeight: "bold" }}
                         >
-                            Username
+                            Order Details
+                        </TableCell>
+                        <TableCell
+                            align="right"
+                            sx={{ color: "white", fontWeight: "bold" }}
+                        >
+                            Created At
                         </TableCell>
                         <TableCell
                             align="right"
@@ -173,19 +186,53 @@ const AdminUsers = () => {
                 </TableHead>
                 <TableBody>
                     {(rowsPerPage > 0
-                        ? users.slice(
+                        ? orders.slice(
                               page * rowsPerPage,
                               page * rowsPerPage + rowsPerPage
                           )
-                        : users
+                        : orders
                     ).map((row) => (
                         <TableRow key={row._id}>
                             <TableCell component="th" scope="row">
-                                {row.email}
+                                {row._id}
                             </TableCell>
                             <TableCell align="right">
-                                {row.username}
+                                <Accordion>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography>Details</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        {row.orderDetails.map((item) => (
+                                            <Grid
+                                                item
+                                                lg={10}
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    justifyContent:
+                                                        "space-between",
+                                                }}
+                                                key={item._id}
+                                            >
+                                                <Typography>
+                                                    {item.name}
+                                                </Typography>
+                                                <Typography
+                                                    color="textSecondary"
+                                                    variant="body2"
+                                                >
+                                                    {item.quantity}
+                                                </Typography>
+                                            </Grid>
+                                        ))}
+                                    </AccordionDetails>
+                                </Accordion>
                             </TableCell>
+                            <TableCell align="right">{row.createdAt}</TableCell>
                             <TableCell align="right">
                                 <Typography
                                     sx={{
@@ -196,19 +243,21 @@ const AdminUsers = () => {
                                         padding: "5px 10px",
                                         display: "inline-block",
                                         backgroundColor:
-                                            (row.status === "ACTIVE" &&
+                                            (row.status === "delivered" &&
                                                 "green") ||
-                                            (row.status === "DEACTIVATED" &&
-                                                "orange") ||
-                                            (row.status === "SUSPENDED" &&
-                                                "red"),
+                                            (row.status === "rejected" &&
+                                                "red") ||
+                                            (row.status === "pending" &&
+                                                "blue") ||
+                                            (row.status === "on the way" &&
+                                                "orange"),
                                     }}
                                 >
                                     {row.status}
                                 </Typography>
                             </TableCell>
                             <TableCell align="right">
-                                <EditUser user={row}/>
+                                <EditOrder order={row}  id={row._id}/>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -226,7 +275,7 @@ const AdminUsers = () => {
                         { label: "All", value: -1 },
                     ]}
                     colSpan={5}
-                    count={users.length}
+                    count={orders.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     SelectProps={{
@@ -244,4 +293,4 @@ const AdminUsers = () => {
     );
 };
 
-export default AdminUsers;
+export default AdminOrders;

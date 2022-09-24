@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useForm } from "../../../hooks/useForm";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Autocomplete, Slide } from "@mui/material";
@@ -9,10 +8,7 @@ import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import Backdrop from "@mui/material/Backdrop";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-    changeUserStatus,
-    changeUserPassword,
-} from "../../../features/admin/adminAuthSlice";
+import { changeOrderStatus } from "../../../features/admin/adminAuthSlice";
 
 const modalStyle = {
     position: "absolute",
@@ -34,22 +30,20 @@ const formStyle = {
 };
 
 const options = [
-     { option : "ACTIVE" },
-     { option : "DEACTIVATED" },
-     { option : "SUSPENDED" },
+    { option : "pending" },
+    { option : "rejected" },
+    { option : "on the way" },
+    { option : "delivered" },
 ];
 
-const EditUser = ({ user }) => {
+const EditOrder = ({ order , id }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const dispatch = useDispatch();
     
-    const [formValues, handleInputChange] = useForm({
-        email: user.email,
-        password: "",
-    });
+    
     const [status, setStatus] = useState(options.option);
     const onStatusChange = (e, newValue) => {
         setStatus(newValue);
@@ -58,18 +52,11 @@ const EditUser = ({ user }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         dispatch(
-            changeUserStatus({
-                ...formValues,
+            changeOrderStatus({
+                id,
                 status,
             })
         );
-        if(formValues.password !== ""){
-        dispatch(
-            changeUserPassword({
-                ...formValues,
-            })
-        );
-        }
         handleClose();
     };
 
@@ -96,16 +83,7 @@ const EditUser = ({ user }) => {
                     <Box sx={modalStyle}>
                         <form onSubmit={onSubmit}>
                             <Box sx={formStyle}>
-                                <TextField
-                                    name="email"
-                                    label="E-mail"
-                                    variant="outlined"
-                                    value={formValues.email}
-                                    onChange={handleInputChange}
-                                    required
-                                    fullWidth
-                                />
-                                <Autocomplete
+                            <Autocomplete
                                     disablePortal
                                     id="combo-box-demo"
                                     name="status"
@@ -116,15 +94,6 @@ const EditUser = ({ user }) => {
                                     )}
                                     value={status}
                                     onChange={onStatusChange}
-                                    
-                                />
-                                <TextField
-                                    name="password"
-                                    label="New Password"
-                                    variant="outlined"
-                                    value={formValues.password}
-                                    onChange={handleInputChange}
-                                    fullWidth
                                 />
                                 <Button
                                     type="submit"
@@ -141,6 +110,6 @@ const EditUser = ({ user }) => {
             </Modal>
         </>
     );
-};
+}
 
-export default EditUser;
+export default EditOrder

@@ -41,7 +41,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
 const logoutAdmin = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
-  res.redirect("/");
+  res.redirect("/adminLogin");
 });
 
 // Generate JWT token
@@ -127,11 +127,8 @@ const getAllOrders = asyncHandler(async (req, res) => {
       message: "Please login to see your orders",
     });
   } else {
-    const orders = await Order.find({});
-    res.status(200).json({
-      num: orders.length,
-      orders,
-    });
+    const orders = await Order.find();
+    res.status(200).json(orders);
   }
 });
 
@@ -169,9 +166,10 @@ const changeOrderStatus = asyncHandler(async (req, res) => {
     throw new Error("Invalid order");
   } else {
     await Order.findByIdAndUpdate(id, { status });
+    const updatedOrder = await Order.findById(id);
     res
       .status(200)
-      .json({ message: `Status updated successfully to ${status}`, order });
+      .json({ message: `Status updated successfully to ${status}`, updatedOrder});
   }
 });
 

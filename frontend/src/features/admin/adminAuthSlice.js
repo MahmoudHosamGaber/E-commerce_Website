@@ -5,6 +5,7 @@ const admin = JSON.parse(localStorage.getItem("admin"));
 const initialState = {
     admin: admin ? admin : null,
     users: [],
+    orders: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -87,6 +88,45 @@ export const changeUserPassword = createAsyncThunk(
     }
 );
 
+// Admin get all orders
+
+export const getOrders = createAsyncThunk(
+    "admin/getOrders",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.getOrders(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+// Admin changes order status
+export const changeOrderStatus = createAsyncThunk(
+    "admin/changeOrderStatus",
+    async (orderData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.changeOrderStatus(orderData, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const adminAuthSlice = createSlice({
     name: "admin",
     initialState,
@@ -121,6 +161,7 @@ export const adminAuthSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.isError = false;
+                state.message = "Users retrieval is successfull";
                 state.users = action.payload;
             })
             .addCase(getUsers.rejected, (state, action) => {
@@ -136,6 +177,7 @@ export const adminAuthSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
+                state.message = "Status have been updated";
                 state.users = state.users.map((user) => {
                     if (user._id === action.payload._id) {
                         return { ...user, ...action.payload };
@@ -156,6 +198,7 @@ export const adminAuthSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
+                state.message = "Password have been updated";
                 state.users = state.users.map((user) => {
                     if (user._id === action.payload._id) {
                         return { ...user, ...action.payload };
@@ -164,6 +207,43 @@ export const adminAuthSlice = createSlice({
                 });
             })
             .addCase(changeUserPassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getOrders.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getOrders.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.isError = false;
+                state.message = "Orders retrieval is successfull";
+                state.orders = action.payload;
+            })
+            .addCase(getOrders.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(changeOrderStatus.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(changeOrderStatus.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+                state.orders = state.orders.map((order) => {
+                    if (order._id === action.payload.updatedOrder._id) {
+                        return { ...order, ...action.payload.updatedOrder };
+                    }
+                    return order;
+                });
+            })
+            .addCase(changeOrderStatus.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = false;
                 state.isError = true;

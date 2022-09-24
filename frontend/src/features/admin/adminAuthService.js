@@ -30,10 +30,13 @@ const changeUserStatus = async (userData, token) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    const response = await axios.put(API_URL + "users/status", userData, config);
+    const response = await axios.put(
+        API_URL + "users/status",
+        userData,
+        config
+    );
     return response.data;
 };
-
 
 // Admin changes user password
 
@@ -43,8 +46,40 @@ const changeUserPassword = async (userData, token) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    const response = await axios.put(API_URL + "users/password", userData, config);
-    return response.data; 
+    const response = await axios.put(
+        API_URL + "users/password",
+        userData,
+        config
+    );
+    return response.data;
+};
+
+// Admin get all orders
+
+const getOrders = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get(API_URL + "orders", config);
+    return response.data;
+};
+
+// Admin change user status
+
+const changeOrderStatus = async (orderData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.put(
+        API_URL + `orders/${orderData.id}/status`,
+        {status : orderData.status},
+        config
+    );
+    return response.data;
 };
 
 const adminAuthService = {
@@ -52,6 +87,8 @@ const adminAuthService = {
     getUsers,
     changeUserStatus,
     changeUserPassword,
+    getOrders,
+    changeOrderStatus,
 };
 
 export default adminAuthService;
