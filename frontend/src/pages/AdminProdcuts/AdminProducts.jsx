@@ -10,6 +10,7 @@ import { getCategories } from "../../features/categories/categoriesSlice";
 import { getBrands } from "../../features/brands/brandsSlice";
 import Spinner from "../../components/Spinner";
 import AddProductModal from "./AddProductModal";
+import { AdminNav } from "../../components";
 import { toast } from "react-toastify";
 import { reset } from "../../features/products/productsSlice";
 
@@ -62,7 +63,7 @@ const AdminProducts = () => {
     };
 
     return (
-        <Container maxWidth="lg">
+        <AdminNav title="Products">
             <Box
                 sx={{
                     display: "flex",
@@ -74,8 +75,8 @@ const AdminProducts = () => {
             >
                 <AddProductModal categories={categories} brands={brands} />
                 <ButtonGroup variant="contained">
-                    <Button href="#active-products" sx={{marginRight : "2px"}}>Active Products</Button>
-                    <Button href="#archived-products" sx={{marginLeft : "3px"}}>Archived Products</Button>
+                    <Button href="#active-products">Active</Button>
+                    <Button href="#archived-products">Archived</Button>
                 </ButtonGroup>
             </Box>
             <AdminProductList
@@ -83,7 +84,7 @@ const AdminProducts = () => {
                 categories={categories}
                 brands={brands}
             />
-        </Container>
+        </AdminNav>
     );
 };
 

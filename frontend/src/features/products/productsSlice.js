@@ -110,6 +110,8 @@ export const productsSlice = createSlice({
         builder
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
                 state.allProducts = action.payload;
+                state.isError = false;
+                state.message = "";
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
                 const updatedProduct = state.archivedProducts.find(

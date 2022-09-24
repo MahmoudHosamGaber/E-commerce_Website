@@ -11,8 +11,20 @@ const adminLogin = async (adminData) => {
     return response.data;
 };
 
+const adminLogout = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get(API_URL + "logout", config);
+    localStorage.removeItem("admin");
+    return response.data;
+};
+
 const adminAuthService = {
     adminLogin,
+    adminLogout,
 };
 
 export default adminAuthService;

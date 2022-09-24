@@ -29,6 +29,24 @@ export const adminLogin = createAsyncThunk(
     }
 );
 
+export const adminLogout = createAsyncThunk(
+    "admin/adminLogout",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.adminLogout(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const adminAuthSlice = createSlice({
     name: "admin",
     initialState,
@@ -55,6 +73,18 @@ export const adminAuthSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 state.admin = null;
+            })
+            .addCase(adminLogout.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(adminLogout.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.admin = null;
+            })
+            .addCase(adminLogout.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
             });
     },
 });
