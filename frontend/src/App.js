@@ -27,7 +27,7 @@ import ContactUs from "./pages/Contactus/ContactUs";
 import AdminLogin from "./pages/Admin/Log-in/login.js";
 import AdminDB from "./components/Admin/AdminDB.js";
 import AdminOrders from "./components/Admin/views/AdminOrders.js";
-import AdminUsers from "./components/Admin/views/AdminUsers.js";
+import AdminUsers from "./pages/Admin/userTable/AdminUsers.js";
 const App = () => {
     return (
         <BrowserRouter>
