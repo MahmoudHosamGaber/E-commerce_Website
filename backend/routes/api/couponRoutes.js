@@ -9,5 +9,5 @@ const { verifyAdmin } = require("../../middleware/authMiddleware");
 
 router.post("/", verifyAdmin, createCoupon);
 router.get("/", verifyAdmin, viewCoupon);
-router.delete("/", verifyAdmin, delCoupon);
+router.delete("/:code", verifyAdmin, delCoupon);
 module.exports = router;

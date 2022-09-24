@@ -28,6 +28,8 @@ import AdminDB from "./components/Admin/AdminDB.js";
 import AdminProducts from "./components/Admin/views/AdminProducts.js";
 import AdminOrders from "./pages/Admin/ordersTable/AdminOrders.js";
 import AdminUsers from "./pages/Admin/userTable/AdminUsers.js";
+import AdminCoupons from "./pages/Admin/couponsTable/AdminCoupons";
+
 const App = () => {
     return (
         <BrowserRouter>
@@ -37,6 +39,8 @@ const App = () => {
                     <Route path="/admin/products" element={<AdminProducts />} />
                     <Route path="/admin/orders" element={<AdminOrders />} />
                     <Route path="/admin/users" element={<AdminUsers />} />
+                    <Route path="/admin/coupons" element={<AdminCoupons />} />
+
 
                     <Route path="adminLogin" element={<AdminLogin />} />
                     <Route path="/products" element={<Products />} />

@@ -82,6 +82,42 @@ const changeOrderStatus = async (orderData, token) => {
     return response.data;
 };
 
+
+// Admin get all coupons 
+
+const getCoupons = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get("/api/coupons/", config);
+    return response.data;
+};
+
+// Admin delete a coupon 
+
+const deleteCoupon = async (code, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.delete(`/api/coupons/${code}`, config);
+    return response.data;
+}
+
+// Admin create a coupon 
+
+const createCoupon = async(couponData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.post(`/api/coupons/`, couponData, config);
+    return response.data;
+}
 const adminAuthService = {
     adminLogin,
     getUsers,
@@ -89,6 +125,9 @@ const adminAuthService = {
     changeUserPassword,
     getOrders,
     changeOrderStatus,
+    getCoupons,
+    deleteCoupon,
+    createCoupon,
 };
 
 export default adminAuthService;

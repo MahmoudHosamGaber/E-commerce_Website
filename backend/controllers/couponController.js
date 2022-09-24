@@ -55,22 +55,22 @@ const createCoupon = asyncHandler(async (req, res) => {
 const viewCoupon = asyncHandler(async (req, res) => {
   const coupon = await stripe.coupons.list();  
   const coupons = await Coupon.find();
-  res.status(200).json({ coupons, coupon });
+  res.status(200).json(coupons);
 });
 
 // @desc    delete a Coupons
-// @route   GET /api/coupons/
+// @route   GET /api/coupons/:code
 // @access  Private
 
 const delCoupon = asyncHandler(async (req, res) => {
-  const coupon = await Coupon.findOne({ code: req.body.code });
+  const coupon = await Coupon.findOne({ code: req.params.code });
   if (!coupon) {
     res.status(400);
     throw new Error("coupon not found");
   }
   await Coupon.findByIdAndDelete(coupon._id);
   const deleted = await stripe.coupons.del(
-    req.body.code  
+    req.params.code  
   );
   res.status(201).json({
     id: coupon._id,

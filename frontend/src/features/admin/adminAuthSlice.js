@@ -6,6 +6,7 @@ const initialState = {
     admin: admin ? admin : null,
     users: [],
     orders: [],
+    coupons: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -126,6 +127,71 @@ export const changeOrderStatus = createAsyncThunk(
         }
     }
 );
+
+// Admin get all coupons
+
+export const getCoupons = createAsyncThunk(
+    "admin/getCoupons",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.getCoupons(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Admin delete a coupon
+
+export const deleteCoupon = createAsyncThunk(
+    "admin/deleteCoupon",
+    async (code, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.deleteCoupon(code, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Admin delete a coupon
+
+export const createCoupon = createAsyncThunk(
+    "admin/createCoupon",
+    async (couponData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.createCoupon(couponData, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+
 
 export const adminAuthSlice = createSlice({
     name: "admin",
@@ -248,7 +314,57 @@ export const adminAuthSlice = createSlice({
                 state.isSuccess = false;
                 state.isError = true;
                 state.message = action.payload;
-            });
+            })
+            .addCase(getCoupons.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getCoupons.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = "Coupons retrieval is successfull";
+                state.coupons = action.payload;
+            })
+            .addCase(getCoupons.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(deleteCoupon.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteCoupon.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = "Coupon is successfully deleted";
+                state.coupons = state.coupons.filter(
+                    (coupon) => coupon._id !== action.payload.id
+                );
+            })
+            .addCase(deleteCoupon.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(createCoupon.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(createCoupon.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = "Coupon is successfully added";
+                state.coupons = [...state.coupons, action.payload];
+            })
+            .addCase(createCoupon.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
     },
 });
 
