@@ -29,7 +29,7 @@ import AdminProducts from "./components/Admin/views/AdminProducts.js";
 import AdminOrders from "./pages/Admin/ordersTable/AdminOrders.js";
 import AdminUsers from "./pages/Admin/userTable/AdminUsers.js";
 import AdminCoupons from "./pages/Admin/couponsTable/AdminCoupons";
-
+import AdminContactUs from "./pages/Admin/contactUsTable/AdminContactUs.js";
 const App = () => {
     return (
         <BrowserRouter>
@@ -40,7 +40,7 @@ const App = () => {
                     <Route path="/admin/orders" element={<AdminOrders />} />
                     <Route path="/admin/users" element={<AdminUsers />} />
                     <Route path="/admin/coupons" element={<AdminCoupons />} />
-
+                    <Route path="/admin/customer" element={<AdminContactUs />} />
 
                     <Route path="adminLogin" element={<AdminLogin />} />
                     <Route path="/products" element={<Products />} />

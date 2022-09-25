@@ -7,6 +7,7 @@ const initialState = {
     users: [],
     orders: [],
     coupons: [],
+    customerQueries: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -148,7 +149,6 @@ export const getCoupons = createAsyncThunk(
     }
 );
 
-
 // Admin delete a coupon
 
 export const deleteCoupon = createAsyncThunk(
@@ -168,7 +168,6 @@ export const deleteCoupon = createAsyncThunk(
         }
     }
 );
-
 
 // Admin delete a coupon
 
@@ -190,8 +189,45 @@ export const createCoupon = createAsyncThunk(
     }
 );
 
+// Admin get all customers queries
 
+export const getCustomerQueries = createAsyncThunk(
+    "admin/getCustomerQueries",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.getCustomerQueries(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
 
+// Admin delete a customer query
+
+export const deleteCustomerQuery = createAsyncThunk(
+    "admin/deleteCustomerQuery",
+    async (id, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.deleteCustomerQuery(id, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
 
 export const adminAuthSlice = createSlice({
     name: "admin",
@@ -365,6 +401,40 @@ export const adminAuthSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
             })
+            .addCase(getCustomerQueries.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getCustomerQueries.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = "Customer queries retrieval is successfull";
+                state.customerQueries = action.payload;
+            })
+            .addCase(getCustomerQueries.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(deleteCustomerQuery.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteCustomerQuery.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = "Customer query is successfully deleted";
+                state.customerQueries = state.customerQueries.filter(
+                    (query) => query._id !== action.payload.id
+                );
+            })
+            .addCase(deleteCustomerQuery.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isError = true;
+                state.message = action.payload;
+            });
     },
 });
 

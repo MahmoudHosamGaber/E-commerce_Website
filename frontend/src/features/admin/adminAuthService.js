@@ -76,14 +76,13 @@ const changeOrderStatus = async (orderData, token) => {
     };
     const response = await axios.put(
         API_URL + `orders/${orderData.id}/status`,
-        {status : orderData.status},
+        { status: orderData.status },
         config
     );
     return response.data;
 };
 
-
-// Admin get all coupons 
+// Admin get all coupons
 
 const getCoupons = async (token) => {
     const config = {
@@ -95,7 +94,7 @@ const getCoupons = async (token) => {
     return response.data;
 };
 
-// Admin delete a coupon 
+// Admin delete a coupon
 
 const deleteCoupon = async (code, token) => {
     const config = {
@@ -105,11 +104,11 @@ const deleteCoupon = async (code, token) => {
     };
     const response = await axios.delete(`/api/coupons/${code}`, config);
     return response.data;
-}
+};
 
-// Admin create a coupon 
+// Admin create a coupon
 
-const createCoupon = async(couponData, token) => {
+const createCoupon = async (couponData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -117,7 +116,32 @@ const createCoupon = async(couponData, token) => {
     };
     const response = await axios.post(`/api/coupons/`, couponData, config);
     return response.data;
-}
+};
+
+// Admin get customers queries
+
+const getCustomerQueries = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get(`/api/customer/`, config);
+    return response.data;
+};
+
+// Admin delete customer query
+
+const deleteCustomerQuery = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.delete(`/api/customer/${id}`, config);
+    return response.data;
+};
+
 const adminAuthService = {
     adminLogin,
     getUsers,
@@ -128,6 +152,8 @@ const adminAuthService = {
     getCoupons,
     deleteCoupon,
     createCoupon,
+    getCustomerQueries,
+    deleteCustomerQuery,
 };
 
 export default adminAuthService;
