@@ -26,6 +26,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { reset } from "../../../features/admin/adminAuthSlice";
+import { AdminNav } from "../../../components";
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -138,6 +139,7 @@ const AdminOrders = () => {
     }, [isSuccess, isError, message, dispatch]);
 
     return (
+        <AdminNav title="Orders">
         <TableContainer
             component={Paper}
             sx={{
@@ -290,6 +292,7 @@ const AdminOrders = () => {
                 />
             </Table>
         </TableContainer>
+        </AdminNav>
     );
 };
 

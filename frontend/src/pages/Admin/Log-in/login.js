@@ -7,10 +7,11 @@ import {
     CardContent,
     Box,
     FormControl,
+    Grid,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { adminLogin, reset } from "../../../features/admin/adminAuthSlice";
 const AdminLogin = () => {
@@ -21,25 +22,27 @@ const AdminLogin = () => {
 
     const { email, password } = formData;
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    // error here in the first line make the page go blank 
-  const {admin, isError, isSuccess, message} = useSelector((state) => state.admin)
+    // error here in the first line make the page go blank
+    const { admin, isError, isSuccess, message } = useSelector(
+        (state) => state.admin
+    );
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message)
-    }
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
 
-    if (isSuccess) {
-        //Change that when any of the admin pages are done
-      navigate("/admin/products")
-      toast.success("you are successfully logged in")
-    }
+        if (isSuccess) {
+            //Change that when any of the admin pages are done
+            navigate("/admin/products");
+            toast.success("you are successfully logged in");
+        }
 
-    dispatch(reset())
-  }, [admin, isError, isSuccess, message, navigate, dispatch])
- 
+        dispatch(reset());
+    }, [admin, isError, isSuccess, message, navigate, dispatch]);
+
     const onChange = (e) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -58,90 +61,97 @@ const AdminLogin = () => {
         dispatch(adminLogin(adminData));
     };
     return (
-        <Card
-            sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundImage: `url(${login})`,
-                backgroundSize: "cover",
-                width: "500px",
-                height: "400px",
-                margin: "auto",
-            }}
+        <Grid
+            container
+            alignItems="center"
+            justify="center"
+            direction="column"
+            style={{ minHeight: "100vh" }}
         >
-            <Box
+            <Card
                 sx={{
                     display: "flex",
-                    flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    spacing: 3,
+                    backgroundImage: `url(${login})`,
+                    backgroundSize: "cover",
+                    width: "500px",
+                    height: "400px",
+                    margin: "auto",
                 }}
             >
-                <CardContent
+                <Box
                     sx={{
-                        flex: "1 0 auto",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
+                        spacing: 3,
                     }}
                 >
-                    <PersonOutlineOutlinedIcon
+                    <CardContent
                         sx={{
-                            color: "white",
-                            height: "4ch",
-                            width: "180ch",
+                            flex: "1 0 auto",
+                            display: "flex",
+                            flexDirection: "column",
                             alignItems: "center",
+                            justifyContent: "center",
                         }}
-                    />
-                    <FormControl
-                        variant="standard"
-                        
-                        sx={{ m: 1, mt: 3, alignItems: "center" }}
                     >
-                        <TextField
+                        <PersonOutlineOutlinedIcon
                             sx={{
-                                mb: 3,
-                                width: "45ch",
+                                color: "white",
+                                height: "4ch",
+                                width: "180ch",
+                                alignItems: "center",
                             }}
-                            id="outlined-basic"
-                            label="E-mail"
-                            variant="outlined"
-                            value={email}
-                            name="email"
-                            onChange={onChange}
-                            required
                         />
-
-                        <TextField
-                            sx={{
-                                mb: 3,
-                                width: "45ch",
-                            }}
-                            id="outlined-basic"
-                            label="Password"
-                            variant="outlined"
-                            type="password"
-                            value={password}
-                            name="password"
-                            onChange={onChange}
-                            required
-                        />
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={onSubmit}
-                            sx={{ mb: 3, width: "20ch" }}
+                        <FormControl
+                            variant="standard"
+                            sx={{ m: 1, mt: 3, alignItems: "center" }}
                         >
-                            Sign In
-                        </Button>
-                    </FormControl>
-                </CardContent>
-            </Box>
-        </Card>
+                            <TextField
+                                sx={{
+                                    mb: 3,
+                                    width: "45ch",
+                                }}
+                                id="outlined-basic"
+                                label="E-mail"
+                                variant="outlined"
+                                value={email}
+                                name="email"
+                                onChange={onChange}
+                                required
+                            />
+
+                            <TextField
+                                sx={{
+                                    mb: 3,
+                                    width: "45ch",
+                                }}
+                                id="outlined-basic"
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                name="password"
+                                onChange={onChange}
+                                required
+                            />
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={onSubmit}
+                                sx={{ mb: 3, width: "20ch" }}
+                            >
+                                Sign In
+                            </Button>
+                        </FormControl>
+                    </CardContent>
+                </Box>
+            </Card>
+        </Grid>
     );
 };
 

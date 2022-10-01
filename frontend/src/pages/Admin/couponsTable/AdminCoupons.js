@@ -22,6 +22,7 @@ import Paper from "@mui/material/Paper";
 import DeleteCoupon from "./DeleteCoupon";
 import AddCoupon from "./AddCoupon";
 import { reset } from "../../../features/admin/adminAuthSlice";
+import { AdminNav } from "../../../components";
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -134,6 +135,7 @@ const AdminCoupons = () => {
     }, [isSuccess, isError, message, dispatch]);
 
     return (
+        <AdminNav title="Coupons">
         <Container maxWidth="lg">
             <Box
                 sx={{
@@ -142,7 +144,7 @@ const AdminCoupons = () => {
                     alignItems: "center",
                     gap: 2,
                     marginTop: 2,
-                    marginLeft: 8,
+                    marginLeft: 10,
                     marginBottom: 2,
                 }}
             >
@@ -248,6 +250,7 @@ const AdminCoupons = () => {
             </Table>
         </TableContainer>
         </Container>
+        </AdminNav>
     );
 };
 

@@ -20,6 +20,7 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import EditUser from "./EditUser";
+import { AdminNav } from "../../../components";
 import {reset} from "../../../features/admin/adminAuthSlice"
 
 function TablePaginationActions(props) {
@@ -132,6 +133,7 @@ const AdminUsers = () => {
     }, [isSuccess, isError, message, dispatch]);
 
     return (
+        <AdminNav title="Users">
         <TableContainer
             component={Paper}
             sx={{
@@ -241,6 +243,7 @@ const AdminUsers = () => {
                 />
             </Table>
         </TableContainer>
+        </AdminNav>
     );
 };
 

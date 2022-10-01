@@ -20,6 +20,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import DeleteQuery from "./DeleteQuery";
 import { reset } from "../../../features/admin/adminAuthSlice";
+import { AdminNav } from "../../../components";
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -134,6 +135,7 @@ const AdminContactUs = () => {
     }, [isSuccess, isError, message, dispatch]);
 
     return (
+        <AdminNav title="Queries">
         <TableContainer
             component={Paper}
             sx={{
@@ -222,6 +224,7 @@ const AdminContactUs = () => {
                 />
             </Table>
         </TableContainer>
+        </AdminNav>
     );
 };
 

@@ -11,6 +11,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import DiscountIcon from '@mui/icons-material/Discount';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import LogoutIcon from "@mui/icons-material/Logout";
 import { adminLogout } from "../../features/admin/adminAuthSlice";
 import { useEffect } from "react";
@@ -35,6 +37,8 @@ const Drawer = ({ open, setOpen }) => {
             icon: <ShoppingCartIcon />,
             href: "/admin/products",
         },
+        { text: "Queries", icon: <QuestionAnswerIcon />, href: "/admin/customer" },
+        { text: "Coupons", icon: <DiscountIcon />, href: "/admin/coupons" },
     ];
     const list = () => (
         <Box
