@@ -26,7 +26,6 @@ import CancelCard from "./pages/Checkout/cancel";
 import ContactUs from "./pages/Contactus/ContactUs";
 import AdminLogin from "./pages/Admin/Log-in/login.js";
 import AdminDB from "./components/Admin/AdminDB.js";
-import AdminProducts from "./components/Admin/views/AdminProducts.js";
 import AdminOrders from "./pages/Admin/ordersTable/AdminOrders.js";
 import AdminUsers from "./pages/Admin/userTable/AdminUsers.js";
 import AdminCoupons from "./pages/Admin/couponsTable/AdminCoupons";
