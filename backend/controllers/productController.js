@@ -51,12 +51,33 @@ const getProduct = asyncHandler(async (req, res) => {
  * */
 const deleteProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(400).json({ message: "Invalid product id" });
+        return;
+    }
     const product = await Product.findByIdAndUpdate(id, { quantityInStock: 0 });
     if (!product) {
-        res.status(400);
-        throw new Error("The product you are trying to delete doesn't exist");
+        res.status(400).json({
+            message: `Product not found`,
+        });
+        return;
     }
     res.json(product);
+});
+/**
+ * @desc    Get Archived products (Quantity in stock = 0)
+ * @route   GET /api/products/archived
+ * @access  Private Admin
+ * */
+const getArchivedProducts = asyncHandler(async (req, res) => {
+    const products = await Product.aggregate([
+        {
+            $match: { quantityInStock: { $lte: 0 } },
+        },
+    ]);
+    res.status(200).json({
+        products,
+    });
 });
 
 /**
@@ -148,6 +169,12 @@ const updateProduct = asyncHandler(async (req, res) => {
     } = req.body;
 
     const id = req.params.id;
+    const productNameExists = await Product.findOne({ name });
+    if (productNameExists && productNameExists._id != id) {
+        res.status(400).json({
+            message: "Product name already exists",
+        });
+    }
 
     const product = await Product.findByIdAndUpdate(id, {
         name,
@@ -162,11 +189,11 @@ const updateProduct = asyncHandler(async (req, res) => {
     });
 
     if (!product) {
-        res.status(400);
-        throw new Error("The product you are trying to update doesn't exist");
+        res.status(400).json({
+            message: "Product not found",
+        });
     }
-
-    res.status(200).json(product);
+    res.status(200).json({ id, ...req.body });
 });
 
 module.exports = {
@@ -175,4 +202,5 @@ module.exports = {
     updateProduct,
     createProduct,
     deleteProduct,
+    getArchivedProducts,
 };

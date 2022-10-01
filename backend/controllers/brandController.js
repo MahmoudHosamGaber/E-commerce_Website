@@ -8,25 +8,25 @@ const Product = require("../model/productModel");
  * @access  Private
  */
 const createBrand = asyncHandler(async (req, res) => {
-  const { name } = req.body;
+    const { name } = req.body;
 
-  if (!name) {
-    res.status(400);
-    throw new Error("Please add name");
-  }
+    if (!name) {
+        res.status(400);
+        throw new Error("Please add name");
+    }
 
-  const brand = await Brand.create({
-    name,
-  });
-
-  if (brand) {
-    res.status(201).json({
-      name: brand.name,
+    const brand = await Brand.create({
+        name,
     });
-  } else {
-    res.status(400);
-    throw new Error("Invalid brand data");
-  }
+
+    if (brand) {
+        res.status(201).json({
+            name: brand.name,
+        });
+    } else {
+        res.status(400);
+        throw new Error("Invalid brand data");
+    }
 });
 
 /**
@@ -36,8 +36,8 @@ const createBrand = asyncHandler(async (req, res) => {
  * */
 
 const viewBrands = asyncHandler(async (req, res) => {
-  const brands = await Brand.find();
-  res.status(200).json({ brands });
+    const brands = await Brand.find();
+    res.status(200).json(brands);
 });
 
 /**
@@ -46,16 +46,16 @@ const viewBrands = asyncHandler(async (req, res) => {
  * @access  Private
  * */
 const deleteBrand = asyncHandler(async (req, res) => {
-  const brand = await Brand.findById(req.params.id);
+    const brand = await Brand.findById(req.params.id);
 
-  if (!brand) {
-    res.status(400);
-    throw new Error("brand not found");
-  }
-  await Brand.findByIdAndDelete(req.params.id);
-  res.status(201).json({
-    id: brand.id,
-  });
+    if (!brand) {
+        res.status(400);
+        throw new Error("brand not found");
+    }
+    await Brand.findByIdAndDelete(req.params.id);
+    res.status(201).json({
+        id: brand.id,
+    });
 });
 
 /**
@@ -64,17 +64,21 @@ const deleteBrand = asyncHandler(async (req, res) => {
  * @access  Private
  * */
 const updateBrand = asyncHandler(async (req, res) => {
-  const brand = await Brand.findById(req.params.id);
+    const brand = await Brand.findById(req.params.id);
 
-  if (!brand) {
-    res.status(400);
-    throw new Error(`Brand not found`);
-  }
+    if (!brand) {
+        res.status(400);
+        throw new Error(`Brand not found`);
+    }
 
-  const updatedBrand = await Brand.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-  res.status(200).json(updatedBrand);
+    const updatedBrand = await Brand.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+            new: true,
+        }
+    );
+    res.status(200).json(updatedBrand);
 });
 
 /**
@@ -84,15 +88,15 @@ const updateBrand = asyncHandler(async (req, res) => {
  * */
 
 const viewBrand = asyncHandler(async (req, res) => {
-  const id = req.params.id;
-  const brand = await Brand.findById(id);
+    const id = req.params.id;
+    const brand = await Brand.findById(id);
 
-  if (!brand) {
-    res.status(400);
-    throw new Error("This brand ID doesn't exist");
-  }
+    if (!brand) {
+        res.status(400);
+        throw new Error("This brand ID doesn't exist");
+    }
 
-  res.status(200).json(brand);
+    res.status(200).json(brand);
 });
 
 /**
@@ -102,29 +106,29 @@ const viewBrand = asyncHandler(async (req, res) => {
  * */
 
 const getBrandProducts = asyncHandler(async (req, res) => {
-  const brandId = req.params.id;
-  const brand = await Brand.findById(brandId);
-  if (!brand) {
-    res.status(400);
-    throw new Error("This brand ID doesn't exist");
-  }
+    const brandId = req.params.id;
+    const brand = await Brand.findById(brandId);
+    if (!brand) {
+        res.status(400);
+        throw new Error("This brand ID doesn't exist");
+    }
 
-  const products = await Product.find({
-    brand: brandId,
-  });
+    const products = await Product.find({
+        brand: brandId,
+    });
 
-  res.status(200).json({ brand: brand.name, products });
+    res.status(200).json({ brand: brand.name, products });
 });
 
 function exists(id) {
-  return mongoose.Types.ObjectId.isValid(id);
+    return mongoose.Types.ObjectId.isValid(id);
 }
 
 module.exports = {
-  createBrand,
-  viewBrands,
-  viewBrand,
-  deleteBrand,
-  updateBrand,
-  getBrandProducts,
+    createBrand,
+    viewBrands,
+    viewBrand,
+    deleteBrand,
+    updateBrand,
+    getBrandProducts,
 };

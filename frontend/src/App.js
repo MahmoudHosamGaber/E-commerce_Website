@@ -18,6 +18,7 @@ import {
     FAQs,
     Cart,
     Security,
+    AdminProducts,
 } from "./pages";
 import Register from "./pages/Log-Reg/Register.js";
 import SuccessCard from "./pages/Checkout/success";
@@ -33,6 +34,7 @@ import AdminContactUs from "./pages/Admin/contactUsTable/AdminContactUs.js";
 const App = () => {
     return (
         <BrowserRouter>
+            {/* <Navbar /> */}
             <ThemeProvider theme={mainTheme}>
                 <Routes>
                     <Route path="/admin" element={<AdminDB />} />
@@ -69,6 +71,7 @@ const App = () => {
                 </Routes>
             </ThemeProvider>
             <ToastContainer />
+            {/* <Footer /> */}
         </BrowserRouter>
     );
 };

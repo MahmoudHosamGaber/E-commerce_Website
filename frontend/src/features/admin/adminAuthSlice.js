@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import adminAuthService from "./adminAuthService";
 
 const admin = JSON.parse(localStorage.getItem("admin"));
+
 const initialState = {
     admin: admin ? admin : null,
     users: [],
@@ -32,6 +33,23 @@ export const adminLogin = createAsyncThunk(
     }
 );
 
+export const adminLogout = createAsyncThunk(
+    "admin/adminLogout",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().admin.admin.token;
+            return await adminAuthService.adminLogout(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
 // Admin get all users
 export const getUsers = createAsyncThunk(
     "admin/getUsers",
@@ -255,6 +273,18 @@ export const adminAuthSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 state.admin = null;
+            })
+            .addCase(adminLogout.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(adminLogout.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.admin = null;
+            })
+            .addCase(adminLogout.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
             })
             .addCase(getUsers.pending, (state) => {
                 state.isLoading = true;

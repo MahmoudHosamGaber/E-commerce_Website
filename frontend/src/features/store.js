@@ -6,41 +6,15 @@ import cartReducer from "./cart/cartSlice";
 import categoriesReducer from "./categories/categoriesSlice";
 import brandsReducer from "./brands/brandsSlice";
 import adminReducer from "./admin/adminAuthSlice";
-import storage from "redux-persist/lib/storage";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-
-// *** Hint **::--------------- The persistReducer is for saving the redux data in the localStorage
-const persistConfig = {
-  key: "root",
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, productsSlice);
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    products: persistedReducer,
-    middleware: getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-    categories: categoriesReducer,
-    brands: brandsReducer,
-    cart: cartReducer,
-    orders: ordersReducer,
-    admin: adminReducer,
-  },
+    reducer: {
+        auth: authReducer,
+        products: productsSlice,
+        categories: categoriesReducer,
+        brands: brandsReducer,
+        cart: cartReducer,
+        orders: ordersReducer,
+        admin: adminReducer,
+    },
 });
-
-export const persistor = persistStore(store);

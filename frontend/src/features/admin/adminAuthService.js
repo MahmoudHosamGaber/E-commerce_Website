@@ -11,7 +11,6 @@ const adminLogin = async (adminData) => {
     return response.data;
 };
 
-// Admin get all users
 const getUsers = async (token) => {
     const config = {
         headers: {
@@ -19,6 +18,17 @@ const getUsers = async (token) => {
         },
     };
     const response = await axios.get(API_URL + "users/", config);
+    return response.data;
+};
+const adminLogout = async (token) => {
+    // Admin get all users
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get(API_URL + "logout", config);
+    localStorage.removeItem("admin");
     return response.data;
 };
 
@@ -147,6 +157,7 @@ const adminAuthService = {
     getUsers,
     changeUserStatus,
     changeUserPassword,
+    adminLogout,
     getOrders,
     changeOrderStatus,
     getCoupons,

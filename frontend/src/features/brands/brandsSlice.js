@@ -28,36 +28,35 @@ export const getBrands = createAsyncThunk(
     }
 );
 
-
 export const brandsSlice = createSlice({
     name: "brands",
     initialState,
-    reducers:{
+    reducers: {
         reset: (state) => {
-            state.isLoading = false
-            state.isSuccess = false
-            state.isError = false
-            state.message = ''
-        } 
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isError = false;
+            state.message = "";
+        },
     },
     extraReducers: (builder) => {
         builder
-         .addCase(getBrands.pending, (state) => {
-            state.isLoading = true
-         })
-         .addCase(getBrands.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.brands = action.payload
-         })
-         .addCase(getBrands.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-            state.brands = []
-         })
+            .addCase(getBrands.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getBrands.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.brands = action.payload;
+            })
+            .addCase(getBrands.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+                state.brands = [];
+            });
     },
-})
+});
 
 export const { reset } = brandsSlice.actions;
 export default brandsSlice.reducer;
